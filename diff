@@ -1,0 +1,119 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>blue_phoenix_lives</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a, #0d1a2d);
+      color: #fff;
+      text-align: center;
+    }
+
+    .controller {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 60px;
+      opacity: 0.85;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #1e90ff;
+      margin-top: 80px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 20px 0 10px;
+      color: #1e90ff;
+    }
+
+    .bio {
+      max-width: 500px;
+      margin: 0 auto 30px;
+      padding: 0 20px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #d0d0d0;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .link-btn {
+      background-color: #1e90ff;
+      color: white;
+      padding: 12px 20px;
+      width: 220px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .link-btn:hover {
+      background-color: #3399ff;
+    }
+
+    .tip-button {
+      margin-top: 10px;
+      background-color: #00c244;
+    }
+
+    .tip-button:hover {
+      background-color: #00e65c;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PS5 Controller Image -->
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/DualSense_1.png" alt="PS5 Controller" class="controller"/>
+
+  <!-- Profile Image -->
+  <img src="https://via.placeholder.com/120" alt="Profile Photo" class="profile-pic"/>
+
+  <!-- Name -->
+  <h1>blue_phoenix_lives</h1>
+
+  <!-- Bio -->
+  <div class="bio">
+    I am Bryan and ever since I was a kid I wanted to be like those popular people you see on YT. I always watched DanTDM and others doing Minecraft videos. So since then I've worked to be a Good student/streamer/content creator. So please follow me on this long journey.
+  </div>
+
+  <!-- Links -->
+  <div class="links">
+    <a href="#" class="link-btn">YouTube</a>
+    <a href="#" class="link-btn">Twitch</a>
+    <a href="#" class="link-btn">Instagram</a>
+    <a href="#" class="link-btn">Twitter</a>
+    <a href="#" class="link-btn tip-button">💸 Tip Me on Cash App</a>
+  </div>
+
+  <footer>
+    © 2025 blue_phoenix_lives
+  </footer>
+
+</body>
+</html>
