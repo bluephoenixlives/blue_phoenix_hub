@@ -2,113 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>blue_phoenix_lives</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0a0a0a, #0d1a2d);
-      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+    }
+
+    header {
+      padding: 2rem;
       text-align: center;
-    }
-
-    .controller {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 60px;
-      opacity: 0.85;
-    }
-
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #1e90ff;
-      margin-top: 80px;
+      background-color: #161b22;
     }
 
     h1 {
-      font-size: 28px;
-      margin: 20px 0 10px;
-      color: #1e90ff;
+      margin: 0;
+      font-size: 2.5rem;
+      color: #58a6ff;
     }
 
-    .bio {
-      max-width: 500px;
-      margin: 0 auto 30px;
-      padding: 0 20px;
-      font-size: 16px;
-      line-height: 1.6;
-      color: #d0d0d0;
-    }
-
-    .links {
+    nav {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 40px;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      position: relative;
     }
 
-    .link-btn {
-      background-color: #1e90ff;
-      color: white;
-      padding: 12px 20px;
-      width: 220px;
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
+    nav a {
       text-decoration: none;
-      transition: background-color 0.3s ease;
+      color: #c9d1d9;
+      font-weight: bold;
+      position: relative;
+      padding-bottom: 5px;
     }
 
-    .link-btn:hover {
-      background-color: #3399ff;
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background-color: black;
+      bottom: 0;
+      left: 0;
+      transition: width 0.3s;
     }
 
-    .tip-button {
-      margin-top: 10px;
-      background-color: #00c244;
+    nav a:hover::after {
+      width: 100%;
     }
 
-    .tip-button:hover {
-      background-color: #00e65c;
+    section {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .socials a {
+      margin-right: 1rem;
+      color: #58a6ff;
+      text-decoration: none;
     }
 
     footer {
-      margin-top: 40px;
-      font-size: 13px;
-      color: #777;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #8b949e;
     }
+
   </style>
 </head>
 <body>
 
-  <!-- Profile Image -->
-  <img src="https://via.placeholder.com/120" alt="Profile Photo" class="profile-pic"/>
+  <header>
+    <h1>blue_phoenix_lives</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#socials">Socials</a>
+    </nav>
+  </header>
 
-  <!-- Name -->
-  <h1>blue_phoenix_lives</h1>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+     I am Bryan and ever since I was a kid I wanted to be like those popular people you see on YT. I always watched DanTDM and others doing Minecraft videos. So since then I've worked to be a Good student/streamer/content-creator. So please follow me on this long journey.
+    </p>
+  </section>
 
-  <!-- Bio -->
-  <div class="bio">
-    I am Bryan and ever since I was a kid I wanted to be like those popular people you see on YT. I always watched DanTDM and others doing Minecraft videos. So since then I've worked to be a Good student/streamer/content creator. So please follow me on this long journey.
-  </div>
-
-  <!-- Links -->
-  <div class="links">
-    <a href="#" class="link-btn">YouTube</a>
-    <a href="#" class="link-btn">Twitch</a>
-    <a href="#" class="link-btn">Instagram</a>
-    <a href="#" class="link-btn">Twitter</a>
-    <a href="#" class="link-btn tip-button">💸 Tip Me on Cash App</a>
-  </div>
+  <section id="socials" class="socials">
+    <h2>Socials</h2>
+    <p>
+      <a href="#" target="_blank">Twitch</a>
+      <a href="#" target="_blank">YouTube</a>
+    </p>
+  </section>
 
   <footer>
-    © 2025 blue_phoenix_lives
+    &copy; 2025 blue_phoenix_lives • All rights reserved
   </footer>
 
 </body>
