@@ -5,39 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>blue_phoenix_lives</title>
   <style>
-    body {
+    /* ======= Base Styles ======= */
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #0d1117;
       color: #c9d1d9;
+      line-height: 1.6;
     }
 
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* ======= Header ======= */
     header {
-      padding: 2rem;
-      text-align: center;
       background-color: #161b22;
+      padding: 2rem 1rem;
+      text-align: center;
     }
 
-    h1 {
-      margin: 0;
+    header h1 {
       font-size: 2.5rem;
       color: #58a6ff;
     }
 
     nav {
+      margin-top: 1rem;
       display: flex;
       justify-content: center;
       gap: 2rem;
-      margin-top: 1rem;
-      position: relative;
     }
 
     nav a {
-      text-decoration: none;
-      color: #c9d1d9;
       font-weight: bold;
       position: relative;
       padding-bottom: 5px;
+      color: #c9d1d9;
     }
 
     nav a::after {
@@ -45,28 +59,39 @@
       position: absolute;
       width: 0;
       height: 2px;
-      background-color: black;
+      background-color: #58a6ff;
       bottom: 0;
       left: 0;
-      transition: width 0.3s;
+      transition: width 0.3s ease-in-out;
     }
 
     nav a:hover::after {
       width: 100%;
     }
 
-    section {
+    /* ======= Main Content ======= */
+    main {
       max-width: 800px;
       margin: 2rem auto;
-      padding: 1rem;
+      padding: 0 1rem;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section h2 {
+      color: #58a6ff;
+      margin-bottom: 1rem;
     }
 
     .socials a {
-      margin-right: 1rem;
-      color: #58a6ff;
-      text-decoration: none;
+      display: inline-block;
+      margin: 0.5rem 1rem 0.5rem 0;
+      font-weight: 500;
     }
 
+    /* ======= Footer ======= */
     footer {
       text-align: center;
       padding: 2rem;
@@ -74,6 +99,12 @@
       color: #8b949e;
     }
 
+    /* ======= Particle Background ======= */
+    .particle-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
   </style>
 </head>
 <body>
@@ -86,125 +117,129 @@
     </nav>
   </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-     I am Bryan and ever since I was a kid I wanted to be like those popular people you see on YT. I always watched DanTDM and others doing Minecraft videos. So since then I've worked to be a Good student/streamer/content-creator. So please follow me on this long journey.
-    </p>
-  </section>
+  <main>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I'm Bryan, and ever since I was a kid, I’ve dreamed of becoming like the YouTubers I admired — especially DanTDM and others who created Minecraft videos. Since then, I've been working hard to be a good student, streamer, and content creator. Join me on this journey — and thanks for your support!
+      </p>
+    </section>
 
-  <section id="socials" class="socials">
-    <h2>Socials</h2>
-    <p>
-      <a href="https://www.twitch.tv/blue_phoenix_lives" target="_blank">Twitch</a>
-       <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank">ChatGPT_clicker_game</a>
-      <a href="ADDLINKHERE">addnamehere</a>
-      <a href="ADDLINKHERE">addnamehere</a>
-      <a href="ADDLINKHERE">addnamehere</a>
-      <a href="https://www.youtube.com/@blue_phoenix_lives" target="_blank">YouTube</a>
-    </p>
-  </section>
+    <section id="socials" class="socials">
+      <h2>Socials</h2>
+      <p>
+        <a href="https://www.twitch.tv/blue_phoenix_lives" target="_blank">Twitch</a>
+        <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank">ChatGPT Clicker Game</a>
+        <a href="https://example.com" target="_blank">Add Link 1</a>
+        <a href="https://example.com" target="_blank">Add Link 2</a>
+        <a href="https://example.com" target="_blank">Add Link 3</a>
+        <a href="https://www.youtube.com/@blue_phoenix_lives" target="_blank">YouTube</a>
+      </p>
+    </section>
+  </main>
 
   <footer>
-    &copy; Sub/Follow blue_phoenix_lives
+    &copy; Follow or Subscribe to <strong>blue_phoenix_lives</strong>
   </footer>
 
-</body>
-  <!-- Particle background section -->
-<div class="particle-bg" 
-     data-color="#ffffff" 
-     data-speed="0.9" 
-     data-shape="star" 
-     style="position: fixed; inset: 0; z-index: -1;">
-</div>
+  <!-- Particle Background -->
+  <div class="particle-bg" 
+       data-color="#ffffff" 
+       data-speed="0.9" 
+       data-shape="star">
+  </div>
+
   <script>
-(function() {
-  function createParticles(container, config) {
-    const canvas = document.createElement("canvas");
-    Object.assign(canvas.style, {
-      position: "absolute",
-      top: "0",
-      left: "0",
-      width: "100%",
-      height: "100%",
-      zIndex: "-1",
-      pointerEvents: "none"
-    });
+    // === Simple Particle Background ===
+    (function() {
+      function createParticles(container, config) {
+        const canvas = document.createElement("canvas");
+        Object.assign(canvas.style, {
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: -1,
+          pointerEvents: "none"
+        });
 
-    canvas.width = container.offsetWidth;
-    canvas.height = container.offsetHeight;
-    container.style.position = "relative";
-    container.appendChild(canvas);
+        container.style.position = "relative";
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+        container.appendChild(canvas);
 
-    const ctx = canvas.getContext("2d");
-    const particles = [];
-    const PARTICLE_COUNT = 60;
+        const ctx = canvas.getContext("2d");
+        const particles = [];
+        const PARTICLE_COUNT = 60;
 
-    class Particle {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * config.speed;
-        this.vy = (Math.random() - 0.5) * config.speed;
-        this.size = Math.random() * 2 + 1;
-        this.alpha = Math.random() * 0.5 + 0.3;
-      }
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
+        class Particle {
+          constructor() {
+            this.reset();
+          }
 
-        if (
-          this.x < 0 || this.x > canvas.width ||
-          this.y < 0 || this.y > canvas.height
-        ) {
-          this.reset();
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * config.speed;
+            this.vy = (Math.random() - 0.5) * config.speed;
+            this.size = Math.random() * 2 + 1;
+            this.alpha = Math.random() * 0.5 + 0.3;
+          }
+
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+              this.reset();
+            }
+          }
+
+          draw() {
+            ctx.beginPath();
+            if (config.shape === "square") {
+              ctx.rect(this.x, this.y, this.size, this.size);
+            } else {
+              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            }
+            ctx.fillStyle = config.color;
+            ctx.globalAlpha = this.alpha;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          }
         }
-      }
-      draw() {
-        ctx.beginPath();
-        if (config.shape === "square") {
-          ctx.rect(this.x, this.y, this.size, this.size);
-        } else {
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push(new Particle());
         }
-        ctx.fillStyle = config.color;
-        ctx.globalAlpha = this.alpha;
-        ctx.fill();
-        ctx.globalAlpha = 1;
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach(p => {
+            p.update();
+            p.draw();
+          });
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener("resize", () => {
+          canvas.width = container.offsetWidth;
+          canvas.height = container.offsetHeight;
+        });
       }
-    }
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push(new Particle());
-    }
+      document.querySelectorAll('.particle-bg').forEach(div => {
+        const color = div.dataset.color || '#ffffff';
+        const speed = parseFloat(div.dataset.speed) || 0.5;
+        const shape = div.dataset.shape || 'circle';
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
+        createParticles(div, { color, speed, shape });
       });
-      requestAnimationFrame(animate);
-    }
+    })();
+  </script>
 
-    animate();
-
-    window.addEventListener("resize", () => {
-      canvas.width = container.offsetWidth;
-      canvas.height = container.offsetHeight;
-    });
-  }
-
-  document.querySelectorAll('.particle-bg').forEach(div => {
-    const color = div.dataset.color || 'rgba(255,255,255,0.8)';
-    const speed = parseFloat(div.dataset.speed) || 0.3;
-    const shape = div.dataset.shape || 'circle';
-
-    createParticles(div, { color, speed, shape });
-  });
-})();
-</script>
+</body>
 </html>
