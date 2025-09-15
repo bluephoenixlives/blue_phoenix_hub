@@ -20,8 +20,8 @@
       position: relative;
       min-height: 100vh;
       overflow-x: hidden;
-      opacity: 0;                /* start invisible */
-      animation: fadeIn 1s ease forwards; /* triggered via JS */
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
     }
 
     @keyframes fadeIn {
@@ -31,10 +31,35 @@
     a {
       color: #58a6ff;
       text-decoration: none;
+      position: relative;
     }
 
     a:hover {
-      text-decoration: underline;
+      text-decoration: none;
+    }
+
+    /* Tooltip Styles */
+    a[data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #161b22;
+      color: #c9d1d9;
+      padding: 0.4rem 0.6rem;
+      border-radius: 0.4rem;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 1;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    a[data-tooltip]::after {
+      content: '';
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
     }
 
     /* ======= Header ======= */
@@ -80,7 +105,7 @@
 
     /* ======= Main Content ======= */
     main {
-      max-width: 800px;
+      max-width: 900px;
       margin: 2rem auto;
       padding: 0 1rem;
       position: relative;
@@ -96,10 +121,26 @@
       margin-bottom: 1rem;
     }
 
-    .socials a {
-      display: inline-block;
-      margin: 0.5rem 1rem 0.5rem 0;
+    /* ======= Socials Grid ======= */
+    .socials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .socials-grid a {
+      display: block;
+      background-color: #161b22;
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      text-align: center;
       font-weight: 500;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .socials-grid a:hover {
+      transform: scale(1.05);
+      background-color: #1f2630;
     }
 
     /* ======= Footer ======= */
@@ -149,14 +190,24 @@
 
     <section id="socials" class="socials">
       <h2>Socials</h2>
-      <p>
-        <a href="https://www.twitch.tv/blue_phoenix_lives" target="_blank">Twitch</a>
-        <a href="https://www.youtube.com/@blue_phoenix_lives" target="_blank">YouTube</a>
-        <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank">ChatGPT Clicker Game</a>
-        <a href=" https://bluephoenixlives.github.io/Website-Builder-html/" target="_blank">Website builder</a>
-        <a href="https://bluephoenixlives.github.io/Website-retro-styler/" target="_blank">website retro styler</a>
-        <a href="https://example.com" target="_blank">Add Link 3</a>
-      </p>
+      <div class="socials-grid">
+        <a href="https://www.twitch.tv/blue_phoenix_lives" target="_blank" data-tooltip="Twitch - Channel">Twitch</a>
+        <a href="https://www.youtube.com/@blue_phoenix_lives" target="_blank" data-tooltip="YouTube - Channel">YouTube</a>
+        <a href="https://kick.com/blue-phoenix-lives" target="_blank" data-tooltip="Kick - Channel">Kick</a>
+        <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank" data-tooltip="Fun ChatGPT Clicker Game">ChatGPT Clicker Game</a>
+        <a href="https://bluephoenixlives.github.io/Website-Builder-html/" target="_blank" data-tooltip="HTML Website Builder Project">Website Builder</a>
+        <a href="https://bluephoenixlives.github.io/Website-retro-styler/" target="_blank" data-tooltip="Retro Style Website Tool">Website Retro Styler</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 1 - Add description">Placeholder 1</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 2 - Add description">Placeholder 2</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 3 - Add description">Placeholder 3</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 4 - Add description">Placeholder 4</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 5 - Add description">Placeholder 5</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 6 - Add description">Placeholder 6</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 7 - Add description">Placeholder 7</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 8 - Add description">Placeholder 8</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 9 - Add description">Placeholder 9</a>
+        <a href="https://example.com" target="_blank" data-tooltip="PLACEHOLDER 10 - Add description">Placeholder 10</a>
+      </div>
     </section>
   </main>
 
