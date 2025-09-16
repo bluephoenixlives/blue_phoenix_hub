@@ -187,12 +187,12 @@
 
   <!-- Top-left main profile pic (Larger) -->
   <div id="profile-pic-container">
-    <img src="github-images/BluePhoenixV3.jpg" alt="Profile Picture" id="profile-pic">
+    <img src="github-images/bluephoenix-v3.jpg" alt="Profile Picture" id="profile-pic">
   </div>
 
   <!-- Top-right small profile pic (Watermark) -->
   <div id="profile-pic-small">
-    <img src="github-images/Water mark for anything.png" alt="Small Profile Picture">
+    <img src="github-images/watermark.png" alt="Small Profile Picture">
   </div>
 
   <!-- Navigation Buttons -->
@@ -261,9 +261,10 @@
     setTimeout(()=>{ document.getElementById('loading').style.display='none'; },1500);
   });
 
-  // ===== Section Switching =====  document.querySelectorAll('.nav-btn').forEach(btn=>{
+  // ===== Section Switching =====
+  document.querySelectorAll('.nav-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const target=btn.dataset.target;
+      const target = btn.dataset.target;
       document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
       document.getElementById(target).classList.add('active');
     });
@@ -271,25 +272,29 @@
 
   // ===== Particle Background =====
   (function(){
-    const container=document.querySelector('.particle-bg');
-    const canvas=document.createElement('canvas'); canvas.className='particle-canvas';
+    const container = document.querySelector('.particle-bg');
+    const canvas = document.createElement('canvas'); canvas.className = 'particle-canvas';
     container.appendChild(canvas);
-    const ctx=canvas.getContext('2d');
-    let width=window.innerWidth, height=window.innerHeight; canvas.width=width; canvas.height=height;
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth, height = window.innerHeight; canvas.width = width; canvas.height = height;
 
-    const particles=[]; const count=120;
-    const color1="#004400", color2="#001f4d"; const speed=0.4;
+    const particles = []; const count = 120;
+    const color1 = "#004400", color2 = "#001f4d"; const speed = 0.4;
 
-    class Particle{constructor(){this.reset();}
-      reset(){this.x=Math.random()*width; this.y=Math.random()*height;
-        this.vx=(Math.random()-0.5)*speed*2; this.vy=(Math.random()-0.5)*speed*2;
-        this.size=Math.random()*3+1; this.color=Math.random()<0.5?color1:color2;}
-      update(){this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>width||this.y<0||this.y>height)this.reset();}
-      draw(){ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill();}
+    class Particle {
+      constructor(){ this.reset(); }
+      reset(){ 
+        this.x = Math.random()*width; this.y = Math.random()*height;
+        this.vx = (Math.random()-0.5)*speed*2; this.vy = (Math.random()-0.5)*speed*2;
+        this.size = Math.random()*3+1; this.color = Math.random()<0.5 ? color1 : color2;
+      }
+      update(){ this.x += this.vx; this.y += this.vy; if(this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset(); }
+      draw(){ ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle = this.color; ctx.fill(); }
     }
-    for(let i=0;i<count;i++)particles.push(new Particle());
-    function animate(){ctx.clearRect(0,0,width,height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate);}
-    animate(); window.addEventListener('resize',()=>{ width=window.innerWidth; height=window.innerHeight; canvas.width=width; canvas.height=height; });
+    for(let i=0;i<count;i++) particles.push(new Particle());
+    function animate(){ ctx.clearRect(0,0,width,height); particles.forEach(p=>{p.update(); p.draw();}); requestAnimationFrame(animate); }
+    animate();
+    window.addEventListener('resize', ()=>{ width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; });
   })();
 </script>
 
