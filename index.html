@@ -185,14 +185,14 @@
 <header>
   <h1>blue_phoenix_lives</h1>
 
-  <!-- Top-left main profile pic -->
+  <!-- Top-left main profile pic (Larger) -->
   <div id="profile-pic-container">
-    <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profile-pic">
+    <img src="github-images/BluePhoenixV3.jpg" alt="Profile Picture" id="profile-pic">
   </div>
 
-  <!-- Top-right small profile pic -->
+  <!-- Top-right small profile pic (Watermark) -->
   <div id="profile-pic-small">
-    <img src="https://via.placeholder.com/50" alt="Small Profile Picture">
+    <img src="github-images/Water mark for anything.png" alt="Small Profile Picture">
   </div>
 
   <!-- Navigation Buttons -->
@@ -261,8 +261,7 @@
     setTimeout(()=>{ document.getElementById('loading').style.display='none'; },1500);
   });
 
-  // ===== Section Switching =====
-  document.querySelectorAll('.nav-btn').forEach(btn=>{
+  // ===== Section Switching =====  document.querySelectorAll('.nav-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const target=btn.dataset.target;
       document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
