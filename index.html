@@ -46,6 +46,23 @@
     margin-bottom: 1rem;
   }
 
+  /* ===== Profile Picture ===== */
+  #profile-pic-container {
+    margin: 1rem auto 2rem;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #9400D3; /* Lavender border */
+    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4; /* Glow effect */
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  #profile-pic-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #9400D3, 0 0 40px #FF69B4;
+  }
+  #profile-pic { width: 100%; height: 100%; object-fit: cover; }
+
   /* ===== Header Buttons (Lavender) ===== */
   #nav-buttons {
     display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
@@ -146,6 +163,11 @@
 
 <header>
   <h1>blue_phoenix_lives</h1>
+  <!-- Profile Picture -->
+  <div id="profile-pic-container">
+    <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profile-pic">
+  </div>
+  <!-- Navigation Buttons -->
   <div id="nav-buttons">
     <button class="nav-btn" data-target="about">About</button>
     <button class="nav-btn" data-target="socials">Socials</button>
@@ -246,3 +268,4 @@
 
 </body>
 </html>
+
