@@ -48,45 +48,72 @@
 
   /* ===== Profile Pictures ===== */
   /* Top-left main profile pic */
- <div id="profile-pic-container">
-  <img src="github-images/BluePhoenixV3.jpg" alt="Profile Picture" id="profile-pic">
-  <div id="pic-options">
-    <img src="github-images/BluePhoenixV3.jpg" class="pic-option" alt="BluePhoenixV3">
-    <img src="github-images/Water mark for anything.png" class="pic-option" alt="Water mark for anything">
-  </div>
-</div>
-<div id="profile-pic-small">
-  <img src="github-images/BluePhoenixV3.jpg" alt="Small Profile Picture">
-</div>
+  #profile-pic-container {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #9400D3;
+    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  #profile-pic-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #9400D3, 0 0 40px #FF69B4;
+  }
+  #profile-pic { width: 100%; height: 100%; object-fit: cover; }
 
-<script>
-  // Profile pic option click handler
-  document.querySelectorAll('.pic-option').forEach(img => {
-    img.addEventListener('click', function() {
-      document.getElementById('profile-pic').src = this.src;
-      document.querySelector('#profile-pic-small img').src = this.src;
-    });
-  });
-</script>
-<style>
-#pic-options {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-.pic-option {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  cursor: pointer;
-  object-fit: cover;
-  transition: border 0.2s;
-}
-.pic-option:hover {
-  border: 2px solid #9400D3;
-}
-</style>
+  /* Profile pic options row */
+  #pic-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    background: rgba(255,255,255,0.7);
+    padding: 4px 8px;
+    border-radius: 20px;
+  }
+  .pic-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    object-fit: cover;
+    transition: border 0.2s;
+    background: #fff;
+  }
+  .pic-option:hover {
+    border: 2px solid #9400D3;
+  }
+
+  /* Top-right small profile pic */
+  #profile-pic-small {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #9400D3;
+    box-shadow: 0 0 10px #9400D3, 0 0 15px #FF69B4;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: #fff;
+  }
+  #profile-pic-small:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #9400D3, 0 0 25px #FF69B4;
+  }
+  #profile-pic-small img { width: 100%; height: 100%; object-fit: cover; }
+
   /* ===== Header Buttons (Lavender) ===== */
   #nav-buttons {
     display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
@@ -108,7 +135,7 @@
     background: #9400D3;
     color: #FF69B4;
     box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
-    transform: scale(1.1);
+    transform: scale(1.08);
   }
 
   /* ===== Sections ===== */
@@ -163,8 +190,8 @@
   }
   .socials-grid a:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
-    color: #0d1117;
+    color: #FF69B4;
+    box-shadow: 0 0 15px #228B22, 0 0 25px #9400D3;
     background: #228B22;
   }
 
@@ -187,14 +214,18 @@
 <header>
   <h1>blue_phoenix_lives</h1>
 
-  <!-- Top-left main profile pic -->
+  <!-- Top-left main profile pic with options -->
   <div id="profile-pic-container">
-    <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profile-pic">
+    <img src="github-images/BluePhoenixV3.jpg" alt="Profile Picture" id="profile-pic">
+    <div id="pic-options">
+      <img src="github-images/BluePhoenixV3.jpg" class="pic-option" alt="BluePhoenixV3">
+      <img src="github-images/Water mark for anything.png" class="pic-option" alt="Water mark for anything">
+    </div>
   </div>
 
   <!-- Top-right small profile pic -->
   <div id="profile-pic-small">
-    <img src="https://via.placeholder.com/50" alt="Small Profile Picture">
+    <img src="github-images/BluePhoenixV3.jpg" alt="Small Profile Picture">
   </div>
 
   <!-- Navigation Buttons -->
@@ -269,6 +300,14 @@
       const target=btn.dataset.target;
       document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
       document.getElementById(target).classList.add('active');
+    });
+  });
+
+  // ===== Profile pic option click handler =====
+  document.querySelectorAll('.pic-option').forEach(img => {
+    img.addEventListener('click', function() {
+      document.getElementById('profile-pic').src = this.src;
+      document.querySelector('#profile-pic-small img').src = this.src;
     });
   });
 
