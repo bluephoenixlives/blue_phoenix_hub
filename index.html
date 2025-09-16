@@ -1,148 +1,253 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>blue_phoenix_lives</title>
-<style>
-  /* =========================
-     DESIGN TOKENS (BRIGHT)
-     ========================= */
-  :root{
-    --bg-0: #04060a;
-    --bg-1: linear-gradient(180deg,#061022 0%, #021018 100%);
-    --neon-cyan: #00f7ff;
-    --neon-green: #00ff88;
-    --neon-violet: #b36bff;
-    --muted: #cfeff0;
-    --card: rgba(255,255,255,0.03);
-    --glass: rgba(255,255,255,0.04);
-    --shadow: 0 24px 70px rgba(0,0,0,0.7);
-    --max-width: 1180px;
-    --slide-ms: 650ms;
-    --accent-glow: 0 10px 35px rgba(0,247,255,0.12), 0 2px 12px rgba(0,255,136,0.06);
-  }
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{height:100%;background:var(--bg-0);font-family:Inter, "Segoe UI", system-ui, -apple-system, Arial;color:var(--muted);overflow:hidden}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>blue_phoenix_lives</title>
+  <style>
+    /* ===== Base Styles ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
+    body { background: #0d1117; color: #000; position: relative; }
 
-  /* =========================
-     LOADER
-     ========================= */
-  .loader {
-    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;
-    background: radial-gradient(ellipse at center, rgba(0,247,255,0.06), rgba(0,0,0,0.6) 45%), var(--bg-1);
-    backdrop-filter: blur(6px);
-    transition: opacity 520ms ease, transform 420ms ease;
-  }
-  .loader.hide { opacity:0; pointer-events:none; transform: scale(0.995); }
-  .loader-content { text-align:center; color:var(--neon-cyan); }
-  .loader-title {
-    font-size:48px; font-weight:800; letter-spacing:2px;
-    text-shadow: 0 0 18px rgba(0,247,255,0.4), 0 0 36px rgba(179,107,255,0.06);
-    transform-origin:center;
-    animation: loaderPulse 1800ms infinite;
-  }
-  @keyframes loaderPulse {
-    0% { filter: drop-shadow(0 0 8px rgba(0,247,255,0.28)); transform: translateY(0) skewY(0.2deg) }
-    50%{ filter: drop-shadow(0 0 22px rgba(0,247,255,0.45)); transform: translateY(-6px) skewY(-0.2deg) }
-    100%{ filter: drop-shadow(0 0 8px rgba(0,247,255,0.28)); transform: translateY(0) skewY(0.2deg) }
-  }
-  .loader-sub {
-    margin-top:10px;color:rgba(190,255,255,0.8);font-weight:600;letter-spacing:0.6px;
-    opacity:0.95;font-size:14px;
-  }
-  /* slight glitch */
-  .loader-title::after {
-    content: attr(data-text);
-    position:absolute; left:50%; transform:translateX(-50%) translateY(-2px);
-    color:var(--neon-violet); mix-blend-mode:screen; opacity:0.14;
-    clip-path: inset(0 0 60% 0);
-    animation: loaderGlitch 3000ms infinite;
-  }
-  @keyframes loaderGlitch {
-    0% { transform:translateX(-50%) translateY(-2px) }
-    10%{ transform:translateX(calc(-50% + 2px)) translateY(-1px) }
-    20%{ transform:translateX(calc(-50% - 1px)) translateY(1px) }
-    100%{ transform:translateX(-50%) translateY(-2px) }
-  }
+    /* ===== Loading Screen ===== */
+    #loading {
+      position: fixed; inset: 0;
+      display: flex; justify-content: center; align-items: center;
+      background: linear-gradient(135deg, #00ff99, #00ccff);
+      z-index: 9999;
+      flex-direction: column;
+    }
+    #loading h1 {
+      font-size: 3rem;
+      color: #0d1117;
+      text-shadow: 0 0 10px #fff, 0 0 20px #00ff99, 0 0 30px #00ccff;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
 
-  /* =========================
-     LAYOUT - Title + Top buttons
-     ========================= */
-  .wrap { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:22px; }
-  .topbar { width:100%; max-width:var(--max-width); display:flex; flex-direction:column; align-items:center; gap:10px; z-index:40; }
-  .title {
-    font-size:2.4rem; color:var(--neon-cyan); font-weight:800; text-align:center;
-    text-shadow: 0 6px 30px rgba(0,247,255,0.14), 0 0 8px rgba(0,255,136,0.04);
-    animation: titleGlow 2600ms ease-in-out infinite;
-  }
-  @keyframes titleGlow {
-    0% { text-shadow: 0 6px 30px rgba(0,247,255,0.06) }
-    50% { text-shadow: 0 18px 60px rgba(0,247,255,0.22) }
-    100% { text-shadow: 0 6px 30px rgba(0,247,255,0.06) }
-  }
+    /* ===== Particle Background ===== */
+    .particle-bg { position: fixed; inset: 0; z-index: -1; }
+    canvas.particle-canvas { position: absolute; top:0; left:0; width:100%; height:100%; }
 
-  .tabs {
-    display:flex; gap:14px; align-items:center; justify-content:center;
-  }
-  .tab {
-    position:relative;
-    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-    border-radius:12px; padding:12px 18px; font-weight:800; color:white; cursor:pointer;
-    border:1px solid rgba(255,255,255,0.04);
-    box-shadow: var(--accent-glow);
-    display:inline-flex; gap:10px; align-items:center;
-    transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms, background 250ms;
-    overflow:hidden;
-  }
-  .tab .dot {
-    width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-green));
-    box-shadow:0 8px 26px rgba(0,255,200,0.12);
-  }
-  .tab:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.65), 0 0 24px rgba(0,247,255,0.12) }
-  .tab.active {
-    background: linear-gradient(90deg, rgba(0,247,255,0.08), rgba(0,255,136,0.06));
-    box-shadow: 0 28px 90px rgba(0,247,255,0.08);
-    color:white;
-    transform: translateY(-8px) scale(1.03);
-  }
-  /* ripple */
-  .tab:after {
-    content:''; position:absolute; inset:0; border-radius:12px; pointer-events:none; opacity:0;
-    background: radial-gradient(circle at 10% 10%, rgba(0,247,255,0.06), transparent 20%);
-    transition: opacity 360ms;
-  }
-  .tab:hover:after { opacity:1; }
+    /* ===== Header ===== */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 2rem 1rem;
+      background: linear-gradient(90deg, #00ff99, #00ccff);
+      color: #0d1117;
+      box-shadow: 0 0 20px #00ff99;
+    }
+    header h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 10px #fff, 0 0 20px #00ff99, 0 0 30px #00ccff;
+      margin-bottom: 1rem;
+    }
+    #nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      background: #0d1117;
+      color: #00ff99;
+      padding: 0.7rem 1.5rem;
+      font-weight: bold;
+      border: 2px solid #00ff99;
+      border-radius: 0.6rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 5px #00ff99;
+    }
+    .nav-btn:hover {
+      background: #00ff99;
+      color: #0d1117;
+      box-shadow: 0 0 15px #00ff99, 0 0 25px #00ccff;
+      transform: scale(1.1);
+    }
 
-  /* =========================
-     VIEWER / SLIDES
-     ========================= */
-  .viewer {
-    width:100%; max-width:var(--max-width); height: calc(100vh - 200px);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:14px; overflow:hidden; box-shadow: var(--shadow); border:1px solid rgba(255,255,255,0.03);
-    position:relative; z-index:30;
-  }
-  .slides { display:flex; width:400%; height:100%; transition: transform var(--slide-ms) cubic-bezier(.2,.9,.2,1); will-change:transform }
-  section.page {
-    width:25%; padding:26px; height:100%; overflow:auto; position:relative;
-    opacity:0; transform: translateY(20px) scale(0.998); transition: opacity 520ms ease, transform 520ms;
-  }
-  /* we will move slides container; these internal animations will handle content reveal */
-  .page .section-head { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:12px;}
-  .page h2{ color:var(--neon-cyan); font-size:1.2rem; margin-bottom:6px; }
-  .page p.lead{ color:rgba(220,255,255,0.85) }
+    /* ===== Sections ===== */
+    section {
+      min-height: 100vh;
+      padding: 3rem 2rem;
+      display: none;
+      animation: slideIn 0.8s ease forwards;
+    }
+    section.active { display: block; }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
 
-  /* card */
+    /* Bright Section Colors */
+    #about { background: #b3ff66; color: #0d1117; }
+    #socials { background: #66d9ff; color: #0d1117; }
+    #schedule { background: #b3ff66; color: #0d1117; }
 
-  .card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-    border-radius:12px; padding:14px; border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
-  }
+    /* ===== Socials Grid ===== */
+    .socials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .socials-grid a {
+      display: block;
+      background-color: #0d1117;
+      color: #00ff99;
+      padding: 0.8rem 1rem;
+      border-radius: 0.6rem;
+      text-align: center;
+      font-weight: bold;
+      transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
+      text-decoration: none;
+      text-shadow: 0 0 5px #00ff99;
+    }
+    .socials-grid a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #00ff99, 0 0 25px #00ccff;
+      color: #0d1117;
+      background: #00ff99;
+    }
 
-  /* ABOUT */
-  .about-grid { display:grid; grid-template-columns: 1fr 320px; gap:18px; align-items:start; }
-  .avatar {
-    width:160px;height:160px;border-radius:16px;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-green));
-    display:flex;align-items:c
+    /* ===== Schedule Table ===== */
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td {
+      border: 1px solid #00ff99;
+      padding: 0.8rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    th { background: #0d1117; }
+    td { background: rgba(0,0,0,0.1); }
+    td:hover { background: #00ff99; color: #0d1117; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading">
+    <h1>blue_phoenix_lives</h1>
+  </div>
+
+  <!-- Particle Background -->
+  <div class="particle-bg" data-color1="#004400" data-color2="#000044" data-speed="0.7"></div>
+
+  <header>
+    <h1>blue_phoenix_lives</h1>
+    <div id="nav-buttons">
+      <button class="nav-btn" data-target="about">About</button>
+      <button class="nav-btn" data-target="socials">Socials</button>
+      <button class="nav-btn" data-target="schedule">Schedule</button>
+    </div>
+  </header>
+
+  <section id="about" class="active">
+    <h2>About Me</h2>
+    <p>
+      I'm Bryan, a creator, streamer, and developer. I love making new random projects and sharing them online. Join me on this journey!
+    </p>
+  </section>
+
+  <section id="socials">
+    <h2>Socials</h2>
+    <div class="socials-grid">
+      <a href="https://www.twitch.tv/blue_phoenix_lives" target="_blank">Twitch</a>
+      <a href="https://www.youtube.com/@blue_phoenix_lives" target="_blank">YouTube</a>
+      <a href="https://kick.com/blue-phoenix-lives" target="_blank">Kick</a>
+      <a href="https://discord.gg/ZD2txWbn" target="_blank">Discord</a>
+      <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank">Clicker Game</a>
+      <a href="https://bluephoenixlives.github.io/Website-Builder-html/" target="_blank">Website Builder</a>
+    </div>
+  </section>
+
+  <section id="schedule">
+    <h2>Stream Schedule</h2>
+    <table>
+      <tr>
+        <th>Day</th><th>Time (CST)</th><th>Event</th>
+      </tr>
+      <tr><td>Monday</td><td>6 PM</td><td>Gaming Stream</td></tr>
+      <tr><td>Wednesday</td><td>6 PM</td><td>Project Work</td></tr>
+      <tr><td>Friday</td><td>7 PM</td><td>Special Stream</td></tr>
+    </table>
+  </section>
+
+  <script>
+    // ===== Loading Screen =====
+    window.addEventListener('load', () => {
+      setTimeout(()=>{ document.getElementById('loading').style.display='none'; }, 1500);
+    });
+
+    // ===== Section Switching =====
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        document.querySelectorAll('section').forEach(sec => {
+          sec.classList.remove('active');
+        });
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // ===== Particle Background =====
+    (function() {
+      const container = document.querySelector('.particle-bg');
+      const canvas = document.createElement('canvas');
+      canvas.className = 'particle-canvas';
+      container.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      let width = window.innerWidth, height = window.innerHeight;
+      canvas.width = width; canvas.height = height;
+
+      const particles = [];
+      const count = 80;
+      const color1 = container.dataset.color1 || '#004400';
+      const color2 = container.dataset.color2 || '#000044';
+      const speed = parseFloat(container.dataset.speed) || 0.7;
+
+      class Particle {
+        constructor() { this.reset(); }
+        reset() {
+          this.x = Math.random()*width;
+          this.y = Math.random()*height;
+          this.vx = (Math.random()-0.5)*speed*2;
+          this.vy = (Math.random()-0.5)*speed*2;
+          this.size = Math.random()*3+1;
+          this.color = Math.random()<0.5 ? color1 : color2;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if(this.x<0||this.x>width||this.y<0||this.y>height) this.reset();
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+
+      for(let i=0;i<count;i++) particles.push(new Particle());
+
+      function animate(){
+        ctx.clearRect(0,0,width,height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      window.addEventListener('resize', ()=>{
+        width = window.innerWidth; height = window.innerHeight;
+        canvas.width = width; canvas.height = height;
+      });
+    })();
+  </script>
+</body>
+</html>
