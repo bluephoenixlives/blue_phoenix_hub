@@ -113,94 +113,6 @@
     box-shadow: 0 0 20px #9400D3, 0 0 25px #FF69B4;
   }
   #profile-pic-small img { width: 100%; height: 100%; object-fit: cover; }
-
-  /* ===== Header Buttons (Lavender) ===== */
-  #nav-buttons {
-    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
-    margin-top: 1rem;
-  }
-  .nav-btn {
-    background: #0d1117;
-    color: #9400D3;
-    padding: 0.7rem 1.5rem;
-    font-weight: bold;
-    border: 2px solid #9400D3;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-shadow: 0 0 5px #9400D3;
-    box-shadow: 0 0 5px #9400D3;
-  }
-  .nav-btn:hover {
-    background: #9400D3;
-    color: #FF69B4;
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
-    transform: scale(1.08);
-  }
-
-  /* ===== Sections ===== */
-  section { 
-    min-height: 100vh; padding: 3rem 2rem;
-    display: none;
-    animation: slideIn 0.8s ease forwards;
-    background-size: 400% 400%;
-  }
-  section.active { display: block; }
-  @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-  @keyframes gradientGreenLavender { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
-  @keyframes gradientBlueLavender { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
-
-  #about { 
-    background: linear-gradient(-45deg, #228B22, #9400D3, #228B22, #9400D3); 
-    color: #0d1117; 
-    animation: gradientGreenLavender 15s ease infinite; 
-  }
-  #socials { 
-    background: linear-gradient(-45deg, #66d9ff, #00cfff, #99e5ff, #66d9ff); 
-    color: #0d1117; 
-    animation: gradientBlueLavender 15s ease infinite; 
-  }
-  #schedule { 
-    background: linear-gradient(-45deg, #66d9ff, #9400D3, #66d9ff, #9400D3); 
-    color: #0d1117; 
-    animation: gradientBlueLavender 15s ease infinite; 
-  }
-
-  /* ===== Socials Grid ===== */
-  .socials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .socials-grid a {
-    display: block;
-    background-color: #0d1117;
-    color: #228B22;
-    padding: 0.8rem 1rem;
-    border-radius: 0.6rem;
-    text-align: center;
-    font-weight: bold;
-    transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
-    text-decoration: none;
-    text-shadow: 0 0 5px #228B22;
-    border: 1px solid #9400D3;
-    box-shadow: 0 0 5px #9400D3;
-  }
-  .socials-grid a:hover {
-    transform: scale(1.1);
-    color: #FF69B4;
-    box-shadow: 0 0 15px #228B22, 0 0 25px #9400D3;
-    background: #228B22;
-  }
-
-  /* ===== Schedule Table ===== */
-  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-  th, td { border: 1px solid #228B22; padding: 0.8rem; text-align: center; transition: all 0.3s; }
-  th { background: #0d1117; color: #9400D3; }
-  td { background: rgba(0,0,0,0.1); }
-  td:hover { background: #228B22; color: #0d1117; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -225,15 +137,9 @@
 
   <!-- Top-right small profile pic -->
   <div id="profile-pic-small">
-    <img src="github-images/BluePhoenixV3.jpg" alt="Small Profile Picture">
+    <img src="github-images/Water mark for anything.png" alt="Small Profile Picture">
   </div>
 
-  <!-- Navigation Buttons -->
-  <div id="nav-buttons">
-    <button class="nav-btn" data-target="about">About</button>
-    <button class="nav-btn" data-target="socials">Socials</button>
-    <button class="nav-btn" data-target="schedule">Schedule</button>
-  </div>
 </header>
 
 <section id="about" class="active">
@@ -250,31 +156,6 @@
     <a href="https://discord.gg/ZD2txWbn" target="_blank">Discord</a>
     <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank">Clicker Game</a>
     <a href="https://bluephoenixlives.github.io/Website-Builder-html/" target="_blank">Website Builder</a>
-    <!-- 24 Placeholder Links -->
-    <a href="https://example.com" target="_blank">Placeholder 1</a>
-    <a href="https://example.com" target="_blank">Placeholder 2</a>
-    <a href="https://example.com" target="_blank">Placeholder 3</a>
-    <a href="https://example.com" target="_blank">Placeholder 4</a>
-    <a href="https://example.com" target="_blank">Placeholder 5</a>
-    <a href="https://example.com" target="_blank">Placeholder 6</a>
-    <a href="https://example.com" target="_blank">Placeholder 7</a>
-    <a href="https://example.com" target="_blank">Placeholder 8</a>
-    <a href="https://example.com" target="_blank">Placeholder 9</a>
-    <a href="https://example.com" target="_blank">Placeholder 10</a>
-    <a href="https://example.com" target="_blank">Placeholder 11</a>
-    <a href="https://example.com" target="_blank">Placeholder 12</a>
-    <a href="https://example.com" target="_blank">Placeholder 13</a>
-    <a href="https://example.com" target="_blank">Placeholder 14</a>
-    <a href="https://example.com" target="_blank">Placeholder 15</a>
-    <a href="https://example.com" target="_blank">Placeholder 16</a>
-    <a href="https://example.com" target="_blank">Placeholder 17</a>
-    <a href="https://example.com" target="_blank">Placeholder 18</a>
-    <a href="https://example.com" target="_blank">Placeholder 19</a>
-    <a href="https://example.com" target="_blank">Placeholder 20</a>
-    <a href="https://example.com" target="_blank">Placeholder 21</a>
-    <a href="https://example.com" target="_blank">Placeholder 22</a>
-    <a href="https://example.com" target="_blank">Placeholder 23</a>
-    <a href="https://example.com" target="_blank">Placeholder 24</a>
   </div>
 </section>
 
