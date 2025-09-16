@@ -48,43 +48,45 @@
 
   /* ===== Profile Pictures ===== */
   /* Top-left main profile pic */
-  #profile-pic-container {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #9400D3;
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  #profile-pic-container:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #9400D3, 0 0 40px #FF69B4;
-  }
-  #profile-pic { width: 100%; height: 100%; object-fit: cover; }
+ <div id="profile-pic-container">
+  <img src="github-images/BluePhoenixV3.jpg" alt="Profile Picture" id="profile-pic">
+  <div id="pic-options">
+    <img src="github-images/BluePhoenixV3.jpg" class="pic-option" alt="BluePhoenixV3">
+    <img src="github-images/Water mark for anything.png" class="pic-option" alt="Water mark for anything">
+  </div>
+</div>
+<div id="profile-pic-small">
+  <img src="github-images/BluePhoenixV3.jpg" alt="Small Profile Picture">
+</div>
 
-  /* Top-right small profile pic */
-  #profile-pic-small {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #9400D3;
-    box-shadow: 0 0 10px #9400D3, 0 0 15px #FF69B4;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  #profile-pic-small:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #9400D3, 0 0 25px #FF69B4;
-  }
-  #profile-pic-small img { width: 100%; height: 100%; object-fit: cover; }
-
+<script>
+  // Profile pic option click handler
+  document.querySelectorAll('.pic-option').forEach(img => {
+    img.addEventListener('click', function() {
+      document.getElementById('profile-pic').src = this.src;
+      document.querySelector('#profile-pic-small img').src = this.src;
+    });
+  });
+</script>
+<style>
+#pic-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.pic-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  object-fit: cover;
+  transition: border 0.2s;
+}
+.pic-option:hover {
+  border: 2px solid #9400D3;
+}
+</style>
   /* ===== Header Buttons (Lavender) ===== */
   #nav-buttons {
     display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
