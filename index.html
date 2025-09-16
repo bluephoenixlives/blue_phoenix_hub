@@ -33,7 +33,7 @@
   /* ===== Header ===== */
   header {
     position: relative; text-align: center;
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
     background: linear-gradient(90deg, #228B22, #66d9ff);
     color: #002B5B;
     box-shadow: 0 0 20px #228B22;
@@ -46,15 +46,17 @@
     margin-bottom: 1rem;
   }
 
-  /* ===== Profile Picture ===== */
+  /* ===== Profile Pictures ===== */
   #profile-pic-container {
-    margin: 1rem auto 2rem;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
     width: 150px;
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
-    border: 4px solid #9400D3; /* Lavender border */
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4; /* Glow effect */
+    border: 4px solid #9400D3;
+    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
     transition: transform 0.3s, box-shadow 0.3s;
   }
   #profile-pic-container:hover {
@@ -63,13 +65,32 @@
   }
   #profile-pic { width: 100%; height: 100%; object-fit: cover; }
 
+  #profile-pic-small {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #9400D3;
+    box-shadow: 0 0 10px #9400D3, 0 0 15px #FF69B4;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  #profile-pic-small:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #9400D3, 0 0 25px #FF69B4;
+  }
+  #profile-pic-small img { width: 100%; height: 100%; object-fit: cover; }
+
   /* ===== Header Buttons (Lavender) ===== */
   #nav-buttons {
     display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    margin-top: 1rem;
   }
   .nav-btn {
     background: #0d1117;
-    color: #9400D3; /* Lavender text */
+    color: #9400D3;
     padding: 0.7rem 1.5rem;
     font-weight: bold;
     border: 2px solid #9400D3;
@@ -80,16 +101,15 @@
     box-shadow: 0 0 5px #9400D3;
   }
   .nav-btn:hover {
-    background: #9400D3; /* Lavender background */
-    color: #FF69B4; /* Hot pink text */
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4; /* Glow */
+    background: #9400D3;
+    color: #FF69B4;
+    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
     transform: scale(1.1);
   }
 
-  /* ===== Sections with Animated Gradients ===== */
-  section {
-    min-height: 100vh;
-    padding: 3rem 2rem;
+  /* ===== Sections ===== */
+  section { 
+    min-height: 100vh; padding: 3rem 2rem;
     display: none;
     animation: slideIn 0.8s ease forwards;
     background-size: 400% 400%;
@@ -150,7 +170,6 @@
   th { background: #0d1117; color: #9400D3; }
   td { background: rgba(0,0,0,0.1); }
   td:hover { background: #228B22; color: #0d1117; font-weight: bold; }
-
 </style>
 </head>
 <body>
@@ -163,10 +182,17 @@
 
 <header>
   <h1>blue_phoenix_lives</h1>
-  <!-- Profile Picture -->
+
+  <!-- Top-left small profile pic -->
+  <div id="profile-pic-small">
+    <img src="https://via.placeholder.com/50" alt="Small Profile Picture">
+  </div>
+
+  <!-- Top-right main profile pic -->
   <div id="profile-pic-container">
     <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profile-pic">
   </div>
+
   <!-- Navigation Buttons -->
   <div id="nav-buttons">
     <button class="nav-btn" data-target="about">About</button>
@@ -256,16 +282,13 @@
         this.vx=(Math.random()-0.5)*speed*2; this.vy=(Math.random()-0.5)*speed*2;
         this.size=Math.random()*3+1; this.color=Math.random()<0.5?color1:color2;}
       update(){this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>width||this.y<0||this.y>height)this.reset();}
-      draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
+      draw(){ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill();}
     }
-    for(let i=0;i<count;i++) particles.push(new Particle());
-
+    for(let i=0;i<count;i++)particles.push(new Particle());
     function animate(){ctx.clearRect(0,0,width,height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate);}
-    animate();
-    window.addEventListener('resize',()=>{width=window.innerWidth;height=window.innerHeight;canvas.width=width;canvas.height=height;});
+    animate(); window.addEventListener('resize',()=>{ width=window.innerWidth; height=window.innerHeight; canvas.width=width; canvas.height=height; });
   })();
 </script>
 
 </body>
 </html>
-
