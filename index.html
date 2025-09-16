@@ -3,715 +3,146 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>blue_phoenix_lives — Dashboard</title>
+<title>blue_phoenix_lives</title>
 <style>
+  /* =========================
+     DESIGN TOKENS (BRIGHT)
+     ========================= */
   :root{
-    --bg:#051018;
-    --panel:#07202a;
-    --muted:#9fb7c3;
-    --accent1:#00d1ff; /* bright blue */
-    --accent2:#00ff9f; /* bright green */
+    --bg-0: #04060a;
+    --bg-1: linear-gradient(180deg,#061022 0%, #021018 100%);
+    --neon-cyan: #00f7ff;
+    --neon-green: #00ff88;
+    --neon-violet: #b36bff;
+    --muted: #cfeff0;
+    --card: rgba(255,255,255,0.03);
     --glass: rgba(255,255,255,0.04);
-    --glass-2: rgba(255,255,255,0.02);
-    --card-shadow: 0 8px 30px rgba(2,6,23,0.65);
-    --max-width:1200px;
-    --slide-duration:600ms;
+    --shadow: 0 24px 70px rgba(0,0,0,0.7);
+    --max-width: 1180px;
+    --slide-ms: 650ms;
+    --accent-glow: 0 10px 35px rgba(0,247,255,0.12), 0 2px 12px rgba(0,255,136,0.06);
   }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:var(--bg-0);font-family:Inter, "Segoe UI", system-ui, -apple-system, Arial;color:var(--muted);overflow:hidden}
 
-  *{box-sizing:border-box;margin:0;padding:0; -webkit-tap-highlight-color: transparent;}
-  html,body{height:100%;}
-  body{
-    font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg, rgba(4,20,28,1) 0%, rgba(5,16,24,1) 60%);
-    color:var(--muted);
-    overflow:hidden;
-  }
-
-  /* layout */
-  .app {
-    position:relative;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-  }
-
-  header.app-header{
-    width:100%;
-    max-width:var(--max-width);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:1rem;
-    padding:1.25rem;
-    margin-top:1rem;
-    z-index:30;
+  /* =========================
+     LOADER
+     ========================= */
+  .loader {
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;
+    background: radial-gradient(ellipse at center, rgba(0,247,255,0.06), rgba(0,0,0,0.6) 45%), var(--bg-1);
     backdrop-filter: blur(6px);
+    transition: opacity 520ms ease, transform 420ms ease;
+  }
+  .loader.hide { opacity:0; pointer-events:none; transform: scale(0.995); }
+  .loader-content { text-align:center; color:var(--neon-cyan); }
+  .loader-title {
+    font-size:48px; font-weight:800; letter-spacing:2px;
+    text-shadow: 0 0 18px rgba(0,247,255,0.4), 0 0 36px rgba(179,107,255,0.06);
+    transform-origin:center;
+    animation: loaderPulse 1800ms infinite;
+  }
+  @keyframes loaderPulse {
+    0% { filter: drop-shadow(0 0 8px rgba(0,247,255,0.28)); transform: translateY(0) skewY(0.2deg) }
+    50%{ filter: drop-shadow(0 0 22px rgba(0,247,255,0.45)); transform: translateY(-6px) skewY(-0.2deg) }
+    100%{ filter: drop-shadow(0 0 8px rgba(0,247,255,0.28)); transform: translateY(0) skewY(0.2deg) }
+  }
+  .loader-sub {
+    margin-top:10px;color:rgba(190,255,255,0.8);font-weight:600;letter-spacing:0.6px;
+    opacity:0.95;font-size:14px;
+  }
+  /* slight glitch */
+  .loader-title::after {
+    content: attr(data-text);
+    position:absolute; left:50%; transform:translateX(-50%) translateY(-2px);
+    color:var(--neon-violet); mix-blend-mode:screen; opacity:0.14;
+    clip-path: inset(0 0 60% 0);
+    animation: loaderGlitch 3000ms infinite;
+  }
+  @keyframes loaderGlitch {
+    0% { transform:translateX(-50%) translateY(-2px) }
+    10%{ transform:translateX(calc(-50% + 2px)) translateY(-1px) }
+    20%{ transform:translateX(calc(-50% - 1px)) translateY(1px) }
+    100%{ transform:translateX(-50%) translateY(-2px) }
   }
 
-  .brand {
-    display:flex;
-    align-items:center;
-    gap:0.85rem;
-    transform: translateY(-10px);
-    animation: headerIn 700ms cubic-bezier(.2,.9,.2,1) forwards;
-    opacity:0;
+  /* =========================
+     LAYOUT - Title + Top buttons
+     ========================= */
+  .wrap { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:22px; }
+  .topbar { width:100%; max-width:var(--max-width); display:flex; flex-direction:column; align-items:center; gap:10px; z-index:40; }
+  .title {
+    font-size:2.4rem; color:var(--neon-cyan); font-weight:800; text-align:center;
+    text-shadow: 0 6px 30px rgba(0,247,255,0.14), 0 0 8px rgba(0,255,136,0.04);
+    animation: titleGlow 2600ms ease-in-out infinite;
   }
-  @keyframes headerIn{ to { transform: translateY(0); opacity:1; } }
-
-  .logo {
-    width:56px;height:56px;border-radius:12px;
-    background: linear-gradient(135deg,var(--accent1),var(--accent2));
-    display:flex;align-items:center;justify-content:center;
-    font-weight:700;color:#001;
-    box-shadow: 0 8px 30px rgba(0,208,255,0.08), inset 0 -6px 18px rgba(0,0,0,0.15);
-    transform: scale(0.96);
-  }
-  .brand h1{ font-size:1.05rem; color:white; letter-spacing:0.4px;}
-  .brand p{ font-size:0.78rem; color:var(--muted); margin-top:2px; }
-
-  .controls {
-    display:flex;
-    gap:0.6rem;
-    align-items:center;
+  @keyframes titleGlow {
+    0% { text-shadow: 0 6px 30px rgba(0,247,255,0.06) }
+    50% { text-shadow: 0 18px 60px rgba(0,247,255,0.22) }
+    100% { text-shadow: 0 6px 30px rgba(0,247,255,0.06) }
   }
 
-  .btn {
-    --pad:10px 14px;
-    background:linear-gradient(180deg,var(--glass),var(--glass-2));
+  .tabs {
+    display:flex; gap:14px; align-items:center; justify-content:center;
+  }
+  .tab {
+    position:relative;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    border-radius:12px; padding:12px 18px; font-weight:800; color:white; cursor:pointer;
     border:1px solid rgba(255,255,255,0.04);
-    color:var(--muted);
-    padding:var(--pad);
-    border-radius:10px;
-    font-weight:600;
-    cursor:pointer;
-    position:relative;
+    box-shadow: var(--accent-glow);
+    display:inline-flex; gap:10px; align-items:center;
+    transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms, background 250ms;
     overflow:hidden;
-    transition: transform 160ms ease, box-shadow 200ms ease, background 300ms;
-    box-shadow: var(--card-shadow);
-    display:inline-flex;
-    gap:0.6rem;
-    align-items:center;
   }
-
-  .btn:hover{ transform: translateY(-4px) scale(1.01); box-shadow: 0 18px 60px rgba(0,0,0,0.6);}
-  .btn .dot { width:10px;height:10px;border-radius:50%;background:var(--accent1); box-shadow: 0 6px 16px rgba(0,209,255,0.12) }
-
-  /* active button */
-  .btn.active{
-    background: linear-gradient(90deg, rgba(0,209,255,0.09), rgba(0,255,159,0.06));
-    border: 1px solid rgba(0,255,159,0.12);
-    color: white;
-    transform: translateY(-6px) scale(1.02);
+  .tab .dot {
+    width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-green));
+    box-shadow:0 8px 26px rgba(0,255,200,0.12);
   }
+  .tab:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.65), 0 0 24px rgba(0,247,255,0.12) }
+  .tab.active {
+    background: linear-gradient(90deg, rgba(0,247,255,0.08), rgba(0,255,136,0.06));
+    box-shadow: 0 28px 90px rgba(0,247,255,0.08);
+    color:white;
+    transform: translateY(-8px) scale(1.03);
+  }
+  /* ripple */
+  .tab:after {
+    content:''; position:absolute; inset:0; border-radius:12px; pointer-events:none; opacity:0;
+    background: radial-gradient(circle at 10% 10%, rgba(0,247,255,0.06), transparent 20%);
+    transition: opacity 360ms;
+  }
+  .tab:hover:after { opacity:1; }
 
-  /* page viewer */
+  /* =========================
+     VIEWER / SLIDES
+     ========================= */
   .viewer {
-    width:100%;
-    max-width:var(--max-width);
-    height: calc(100vh - 120px);
-    margin: 1rem auto 2rem;
-    position:relative;
-    overflow:hidden;
-    border-radius:14px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    width:100%; max-width:var(--max-width); height: calc(100vh - 200px);
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.03);
-    display:flex;
+    border-radius:14px; overflow:hidden; box-shadow: var(--shadow); border:1px solid rgba(255,255,255,0.03);
+    position:relative; z-index:30;
   }
-
-  /* slides container */
-  .slides {
-    display:flex;
-    width:400%;
-    height:100%;
-    transition: transform var(--slide-duration) cubic-bezier(.2,.9,.25,1);
-    will-change: transform;
-  }
-
+  .slides { display:flex; width:400%; height:100%; transition: transform var(--slide-ms) cubic-bezier(.2,.9,.2,1); will-change:transform }
   section.page {
-    width:100%;
-    padding:28px;
-    height:100%;
-    overflow:auto;
-    position:relative;
+    width:25%; padding:26px; height:100%; overflow:auto; position:relative;
+    opacity:0; transform: translateY(20px) scale(0.998); transition: opacity 520ms ease, transform 520ms;
   }
+  /* we will move slides container; these internal animations will handle content reveal */
+  .page .section-head { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:12px;}
+  .page h2{ color:var(--neon-cyan); font-size:1.2rem; margin-bottom:6px; }
+  .page p.lead{ color:rgba(220,255,255,0.85) }
 
-  /* common section header */
-  .page .section-head {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:1rem;
-    margin-bottom:16px;
-  }
-  .page h2{ color: white; font-size:1.35rem; letter-spacing:0.3px; }
-  .page p.lead { color:var(--muted); margin-top:8px; font-size:0.95rem; }
+  /* card */
 
-  /* About page */
-  .about-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:12px;
-    padding:18px;
-    border:1px solid rgba(255,255,255,0.03);
-    box-shadow: var(--card-shadow);
-    display:grid;
-    grid-template-columns: 1fr 300px;
-    gap:18px;
-    align-items:start;
-  }
-
-  .about-left { padding-right:12px; }
-  .about-left p{ font-size:1rem; color:var(--muted); line-height:1.5; margin-bottom:12px; }
-  .about-stats { display:flex; gap:12px; flex-wrap:wrap; }
-  .stat {
-    background: linear-gradient(90deg, rgba(0,209,255,0.04), rgba(0,255,159,0.03));
-    border-radius:10px;padding:10px 12px;font-weight:700;color:white;
-    min-width:110px;text-align:center; transform: translateY(20px); opacity:0;
-    animation: statIn 700ms cubic-bezier(.2,.9,.2,1) forwards;
-  }
-  .stat:nth-child(1){ animation-delay: 120ms; }
-  .stat:nth-child(2){ animation-delay: 240ms; }
-  .stat:nth-child(3){ animation-delay: 360ms; }
-
-  @keyframes statIn { to { transform: translateY(0); opacity:1; } }
-
-  .about-right {
-    background: linear-gradient(90deg, rgba(0,0,0,0.08), rgba(255,255,255,0.02));
-    padding:12px;border-radius:10px;text-align:center;border:1px solid rgba(255,255,255,0.02);
-  }
-  .avatar {
-    width:160px;height:160px;border-radius:14px; margin:0 auto 12px;
-    background:linear-gradient(135deg,var(--accent1),var(--accent2));
-    display:flex;align-items:center;justify-content:center;font-weight:800;color:#001;font-size:20px;
-  }
-  .follow-btn{ margin-top:8px; display:inline-block; padding:8px 12px; border-radius:10px; font-weight:700;}
-
-  /* Projects page */
-  .projects-grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
-    gap:14px;
-  }
-
-  .project-card {
+  .card {
     background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-    border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);
-    transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms;
-    cursor:pointer;display:flex;flex-direction:column;gap:8px;height:140px;
-    overflow:hidden; position:relative;
-  }
-  .project-card:hover{ transform: translateY(-8px) scale(1.01); box-shadow: 0 30px 70px rgba(2,6,23,0.6); }
-  .project-title{ font-weight:700; color:#fff; font-size:0.98rem; }
-  .project-desc{ font-size:0.86rem; color:var(--muted); flex:1; overflow:hidden; }
-  .project-meta{ display:flex; gap:8px; align-items:center; font-size:0.82rem; color:var(--muted); }
-  .tag { padding:6px 8px;border-radius:8px;background:rgba(0,0,0,0.18); font-weight:700; color:#ddd; font-size:0.78rem; }
-
-  /* Schedule page */
-  .schedule {
-    display:flex;flex-direction:column;gap:12px;
-  }
-  .schedule-card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
-    border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);
-    display:flex;gap:12px;align-items:center;justify-content:space-between;box-shadow:var(--card-shadow);
-  }
-  .time { font-weight:800; color:white; min-width:110px; text-align:center; }
-  .meta { flex:1; color:var(--muted); }
-  .live {
-    background: linear-gradient(90deg,var(--accent2),#ff6b6b);
-    color:#001;padding:8px 12px;border-radius:999px;font-weight:800;box-shadow: 0 8px 30px rgba(0,255,159,0.08);
-    transform:scale(0.98);
-    animation: pulse 1.6s infinite;
-  }
-  @keyframes pulse{ 0%{ transform:scale(0.98)} 50%{ transform:scale(1.04)} 100%{ transform:scale(0.98)} }
-
-  /* footer */
-  footer.app-footer{ width:100%; max-width:var(--max-width); padding:14px 18px; color:var(--muted); text-align:center; font-size:0.9rem; border-top:1px solid rgba(255,255,255,0.02); margin-bottom:36px; }
-
-  /* small screens */
-  @media (max-width:900px){
-    .about-card{ grid-template-columns: 1fr; }
-    .about-right { order:-1; }
-    .viewer{ height: calc(100vh - 160px); margin-top:0; }
-    .brand h1{ font-size:0.95rem; }
-    header.app-header{ padding:12px; gap:6px; }
+    border-radius:12px; padding:14px; border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
   }
 
-  /* particle canvas (kept) */
-  .particle-bg { position:fixed; inset:0; z-index:1; pointer-events:none; }
-  canvas.particle-canvas{ position:absolute; width:100%; height:100%; display:block; }
-
-  /* tiny details */
-  .hint { color: #7fb3bf; font-size:0.86rem; }
-  a.link { color: var(--accent1); font-weight:700; text-decoration:none; }
-</style>
-</head>
-<body>
-  <div class="particle-bg" data-color="#00d1ff" data-speed="0.9" data-shape="circle"></div>
-
-  <div class="app" role="application" aria-label="blue_phoenix_lives dashboard">
-    <header class="app-header" role="banner">
-      <div class="brand" title="blue_phoenix_lives">
-        <div class="logo">B</div>
-        <div>
-          <h1>blue_phoenix_lives</h1>
-          <p>creator • streamer • tinkerer</p>
-        </div>
-      </div>
-
-      <div class="controls" role="navigation" aria-label="Main controls">
-        <button class="btn nav-btn active" data-index="0" aria-pressed="true"><span class="dot"></span> About</button>
-        <button class="btn nav-btn" data-index="1" aria-pressed="false"><span class="dot" style="background:var(--accent2)"></span> Socials</button>
-        <button class="btn nav-btn" data-index="2" aria-pressed="false"><span class="dot" style="background:linear-gradient(90deg,var(--accent1),var(--accent2));"></span> Projects</button>
-        <button class="btn nav-btn" data-index="3" aria-pressed="false"><span class="dot" style="background:#ffd166"></span> Schedule</button>
-      </div>
-    </header>
-
-    <div class="viewer" role="main">
-      <div class="slides" id="slides">
-        <!-- ABOUT -->
-        <section class="page" id="aboutPage" aria-labelledby="aboutTitle">
-          <div class="section-head">
-            <div>
-              <h2 id="aboutTitle">About Me</h2>
-              <p class="lead">Hey — I'm Bryan. I build games, tools, and stream my adventures. This is a redesigned hub to keep everything tidy and animated.</p>
-            </div>
-            <div class="hint">Full-page sections • Slide animation • Bright blue & green</div>
-          </div>
-
-          <div class="about-card" id="aboutCard">
-            <div class="about-left">
-              <p>I started making content inspired by creators I loved. Now I build small projects, stream regularly, and experiment with tools. This page showcases my socials, projects, and schedule — and it updates easily.</p>
-
-              <div class="about-stats">
-                <div class="stat">Streamer • Long-term</div>
-                <div class="stat">Maker • 15+ Projects</div>
-                <div class="stat">Schedule • Central (Alabama)</div>
-              </div>
-
-              <div style="margin-top:14px;">
-                <a class="btn follow-btn" href="https://www.twitch.tv/blue_phoenix_lives" target="_blank" rel="noopener">Follow on Twitch</a>
-              </div>
-            </div>
-
-            <aside class="about-right">
-              <div class="avatar" title="blue_phoenix_lives">BP</div>
-              <div style="font-weight:800;color:#bfefff">Bryan (blue_phoenix_lives)</div>
-              <div style="margin-top:8px;color:var(--muted)">Streamer & hobby dev. I prototype tools and small games — everything you see below is clickable.</div>
-              <div style="margin-top:12px;">
-                <a class="link" href="#socials">Jump to socials →</a>
-              </div>
-            </aside>
-          </div>
-
-        </section>
-
-        <!-- SOCIALS -->
-        <section class="page" id="socialsPage" aria-labelledby="socialsTitle">
-          <div class="section-head">
-            <div>
-              <h2 id="socialsTitle">Socials</h2>
-              <p class="lead">All the links you provided plus placeholders — now in a card grid, animated and quick to tap on mobile.</p>
-            </div>
-            <div class="hint">Click any tile to open the platform</div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-            <!-- Social tiles (kept from original list) -->
-            <a class="project-card" href="https://www.twitch.tv/blue_phoenix_lives" target="_blank" rel="noopener" aria-label="Twitch">
-              <div class="project-title">Twitch</div>
-              <div class="project-desc">Live streams, community, and clips.</div>
-              <div class="project-meta"><span class="tag">Live</span><span style="margin-left:auto">Twitch</span></div>
-            </a>
-
-            <a class="project-card" href="https://www.youtube.com/@blue_phoenix_lives" target="_blank" rel="noopener" aria-label="YouTube">
-              <div class="project-title">YouTube</div>
-              <div class="project-desc">Uploads, shorts, and archival content.</div>
-              <div class="project-meta"><span class="tag">Videos</span><span style="margin-left:auto">YouTube</span></div>
-            </a>
-
-            <a class="project-card" href="https://kick.com/blue-phoenix-lives" target="_blank" rel="noopener" aria-label="Kick">
-              <div class="project-title">Kick</div>
-              <div class="project-desc">Alternative streaming platform.</div>
-              <div class="project-meta"><span class="tag">Stream</span><span style="margin-left:auto">Kick</span></div>
-            </a>
-
-            <a class="project-card" href="https://discord.gg/ZD2txWbn" target="_blank" rel="noopener" aria-label="Discord">
-              <div class="project-title">Discord</div>
-              <div class="project-desc">Community server & chat.</div>
-              <div class="project-meta"><span class="tag">Chat</span><span style="margin-left:auto">Discord</span></div>
-            </a>
-
-            <a class="project-card" href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank" rel="noopener">
-              <div class="project-title">ChatGPT Clicker</div>
-              <div class="project-desc">A fun clicker project — try it!</div>
-              <div class="project-meta"><span class="tag">Game</span><span style="margin-left:auto">Site</span></div>
-            </a>
-
-            <a class="project-card" href="https://bluephoenixlives.github.io/Website-Builder-html/" target="_blank" rel="noopener">
-              <div class="project-title">Website Builder</div>
-              <div class="project-desc">Drag-and-drop HTML builder.</div>
-              <div class="project-meta"><span class="tag">Tool</span><span style="margin-left:auto">Site</span></div>
-            </a>
-
-            <a class="project-card" href="https://bluephoenixlives.github.io/Website-retro-styler/" target="_blank" rel="noopener">
-              <div class="project-title">Retro Styler</div>
-              <div class="project-desc">Retro website generator.</div>
-              <div class="project-meta"><span class="tag">Tool</span><span style="margin-left:auto">Site</span></div>
-            </a>
-
-            <!-- placeholders to keep 15 links (styled similarly) -->
-            <a class="project-card" href="https://example.com" target="_blank" rel="noopener"><div class="project-title">Placeholder 2</div><div class="project-desc">PLACEHOLDER 2 - Add description</div><div class="project-meta"><span class="tag">TBD</span></div></a>
-            <a class="project-card" href="https://example.com" target="_blank" rel="noopener"><div class="project-title">Placeholder 3</div><div class="project-desc">PLACEHOLDER 3 - Add description</div><div class="project-meta"><span class="tag">TBD</span></div></a>
-            <a class="project-card" href="https://example.com" target="_blank" rel="noopener"><div class="project-title">Placeholder 4</div><div class="project-desc">PLACEHOLDER 4 - Add description</div><div class="project-meta"><span class="tag">TBD</span></div></a>
-            <a class="project-card" href="https://example.com" target="_blank" rel="noopener"><div class="project-title">Placeholder 5</div><div class="project-desc">PLACEHOLDER 5 - Add description</div><div class="project-meta"><span class="tag">TBD</span></div></a>
-            <a class="project-card" href="https://example.com" target="_blank" rel="noopener"><div class="project-title">Placeholder 6</div><div class="project-desc">PLACEHOLDER 6 - Add description</div><div class="project-meta"><span class="tag">TBD</span></div></a>
-            <a class="project-card" href="https://example.com" target="_blank" rel="noopener"><div class="project-title">Placeholder 7</div><div class="project-desc">PLACEHOLDER 7 - Add description</div><div class="project-meta"><span class="tag">TBD</span></div></a>
-            <a class="project-card" href="https://example.com" target="_blank" rel="noopener"><div class="project-title">Placeholder 8</div><div class="project-desc">PLACEHOLDER 8 - Add description</div><div class="project-meta"><span class="tag">TBD</span></div></a>
-          </div>
-        </section>
-
-        <!-- PROJECTS (GitHub) -->
-        <section class="page" id="projectsPage" aria-labelledby="projectsTitle">
-          <div class="section-head">
-            <div>
-              <h2 id="projectsTitle">Projects</h2>
-              <p class="lead">Showcasing up to 15 repos from GitHub (cards load automatically). You can change the username below in the script.</p>
-            </div>
-            <div class="hint">Data pulled from GitHub API • Click card to open repo</div>
-          </div>
-
-          <div id="projectsGrid" class="projects-grid" aria-live="polite">
-            <!-- JS will populate project cards here -->
-          </div>
-        </section>
-
-        <!-- SCHEDULE -->
-        <section class="page" id="schedulePage" aria-labelledby="scheduleTitle">
-          <div class="section-head">
-            <div>
-              <h2 id="scheduleTitle">Stream Schedule</h2>
-              <p class="lead">Readable, mobile-first schedule. Edit the `SCHEDULE` array in the script to update times. Times are shown in Central Time (Alabama → America/Chicago).</p>
-            </div>
-            <div class="hint">LIVE indicator turns on when current time matches schedule</div>
-          </div>
-
-          <div id="scheduleList" class="schedule" aria-live="polite">
-            <!-- JS populates -->
-          </div>
-
-          <div style="margin-top:12px;color:var(--muted);font-size:0.88rem;">
-            Tip: To update schedule, edit the `SCHEDULE` constant in the JS block (it's a simple array of weekdays/times).
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <footer class="app-footer" role="contentinfo">
-      &copy; <strong>blue_phoenix_lives</strong> — built with 💙 and lots of animations
-    </footer>
-  </div>
-
-  <!-- Particle background script (kept & slightly improved) -->
-  <canvas class="particle-canvas" id="particleCanvas"></canvas>
-
-<script>
-/* ===========================
-   CONFIG: change these values
-   ===========================
-   - GITHUB_USERNAME: set to your GitHub username (currently using guess 'bluephoenixlives')
-   - MAX_PROJECTS: how many repos to fetch (up to 15)
-   - SCHEDULE: edit this array to change stream times
-   - TIMEZONE: "America/Chicago" is used for Alabama (Central Time)
-*/
-const GITHUB_USERNAME = 'bluephoenixlives'; // <-- change if needed
-const MAX_PROJECTS = 15;
-
-// Schedule format: { day: 0-6 (Sun-Sat), start: "HH:MM" 24h, end: "HH:MM", title: "Stream Title", platform: "Twitch" }
-// Example: { day: 2, start: "18:30", end:"20:30", title:"Minecraft Fun" }
-const SCHEDULE = [
-  { day: 1, start: "19:00", end: "21:00", title: "Weeknight Build", platform: "Twitch" },
-  { day: 3, start: "19:00", end: "21:00", title: "Community Games", platform: "Twitch" },
-  { day: 5, start: "15:00", end: "18:00", title: "Weekend Special", platform: "YouTube" },
-  // (add up to many items — viewer will show them sorted)
-];
-
-// Timezone used for schedule. You asked for "America/Alabama" — the standard IANA zone for Alabama is 'America/Chicago'.
-const TIMEZONE = 'America/Chicago';
-
-/* ===========================
-   1) slide navigation logic
-   =========================== */
-const navButtons = document.querySelectorAll('.nav-btn');
-const slides = document.getElementById('slides');
-let activeIndex = 0;
-
-function setActive(index, pushHistory = false){
-  index = Math.max(0, Math.min(3, index));
-  activeIndex = index;
-  const x = `translateX(-${index * 100}%)`;
-  slides.style.transform = x;
-
-  navButtons.forEach((b,i)=>{
-    b.classList.toggle('active', i === index);
-    b.setAttribute('aria-pressed', i===index ? 'true' : 'false');
-  });
-
-  // small focus animation
-  document.activeElement.blur?.();
-}
-navButtons.forEach(btn=>{
-  btn.addEventListener('click', ()=> setActive(parseInt(btn.dataset.index)));
-});
-
-/* ===========================
-   2) GitHub project fetcher
-   =========================== */
-const projectsGrid = document.getElementById('projectsGrid');
-
-function makeProjectCard(repo){
-  const a = document.createElement('a');
-  a.className = 'project-card';
-  a.href = repo.html_url || '#';
-  a.target = '_blank';
-  a.rel = 'noopener';
-
-  const title = document.createElement('div');
-  title.className = 'project-title';
-  title.textContent = repo.name || 'untitled';
-
-  const desc = document.createElement('div');
-  desc.className = 'project-desc';
-  desc.textContent = repo.description || 'No description — click to view repo.';
-
-  const meta = document.createElement('div');
-  meta.className = 'project-meta';
-  const stars = document.createElement('div'); stars.textContent = '★ ' + (repo.stargazers_count || 0);
-  const lang = document.createElement('div'); lang.style.marginLeft = 'auto'; lang.textContent = repo.language || '';
-  meta.appendChild(stars); meta.appendChild(lang);
-
-  a.appendChild(title); a.appendChild(desc); a.appendChild(meta);
-  return a;
-}
-
-async function loadGitHubRepos(){
-  projectsGrid.innerHTML = '';
-  // show placeholders while loading
-  for(let i=0;i<6;i++){
-    const ph = document.createElement('div');
-    ph.className = 'project-card';
-    ph.innerHTML = '<div class="project-title">Loading...</div><div class="project-desc">Fetching repos from GitHub</div>';
-    projectsGrid.appendChild(ph);
-  }
-
-  try{
-    const res = await fetch(`https://api.github.com/users/${encodeURIComponent(GITHUB_USERNAME)}/repos?per_page=${MAX_PROJECTS}&sort=updated`);
-    if(!res.ok) throw new Error('GitHub fetch failed');
-    const repos = await res.json();
-    projectsGrid.innerHTML = '';
-    // ensure at least 15 slots (user wanted 15)
-    const items = repos.slice(0, MAX_PROJECTS);
-    items.forEach(r=> projectsGrid.appendChild(makeProjectCard(r)));
-    // fill remaining with placeholders if less than MAX_PROJECTS
-    for(let i=items.length;i<MAX_PROJECTS;i++){
-      const ph = document.createElement('a');
-      ph.className = 'project-card';
-      ph.href = '#';
-      ph.innerHTML = `<div class="project-title">Placeholder ${i+1}</div><div class="project-desc">Add details for placeholder ${i+1}.</div><div class="project-meta"><span class="tag">TBD</span></div>`;
-      projectsGrid.appendChild(ph);
-    }
-  }catch(err){
-    projectsGrid.innerHTML = `<div style="padding:18px;color:var(--muted)">Couldn't fetch GitHub repos (rate limit or network). Showing placeholders.</div>`;
-    // fallback placeholders
-    for(let i=0;i<MAX_PROJECTS;i++){
-      const ph = document.createElement('a');
-      ph.className = 'project-card';
-      ph.href = '#';
-      ph.innerHTML = `<div class="project-title">Placeholder ${i+1}</div><div class="project-desc">PLACEHOLDER ${i+1} - Add description</div><div class="project-meta"><span class="tag">TBD</span></div>`;
-      projectsGrid.appendChild(ph);
-    }
-    console.warn(err);
-  }
-}
-loadGitHubRepos();
-
-/* ===========================
-   3) Schedule rendering & LIVE indicator
-   =========================== */
-const scheduleList = document.getElementById('scheduleList');
-
-function pad(n){ return n.toString().padStart(2,'0'); }
-
-function toLocalTimeStr(day, start, end){
-  // create a reference date for the given day (this week)
-  const now = new Date();
-  const today = new Date(now);
-  const currentWeekDay = today.getDay(); // 0-6
-  // find date of the upcoming 'day' this week (could be earlier if day < currentDay)
-  const diff = (day - currentWeekDay);
-  const target = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff);
-  // parse start time
-  const [sh, sm] = start.split(':').map(Number);
-  const [eh, em] = end.split(':').map(Number);
-  const startDate = new Date(target); startDate.setHours(sh, sm, 0, 0);
-  const endDate = new Date(target); endDate.setHours(eh, em, 0, 0);
-  // Format using Intl in TIMEZONE
-  const opts = { timeZone: TIMEZONE, hour:'2-digit', minute:'2-digit', hour12:false };
-  const startStr = new Intl.DateTimeFormat([], opts).format(startDate);
-  const endStr = new Intl.DateTimeFormat([], opts).format(endDate);
-  const weekday = new Intl.DateTimeFormat([], {weekday:'long', timeZone: TIMEZONE}).format(startDate);
-  return { weekday, startStr, endStr, startDate, endDate };
-}
-
-function isLiveNow(startDate, endDate){
-  const now = new Date();
-  // Compare using the same timezone by converting times to locale strings in TIMEZONE
-  // We'll compare milliseconds by getting the epoch of the same wall-clock time in the target timezone.
-  // Simpler strategy: get the current wall clock string in TIMEZONE and compare times using offsets.
-  const nowParts = new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, hour12:false, hour:'2-digit', minute:'2-digit', second:'2-digit' }).formatToParts(now);
-  const nowStr = nowParts.filter(p=>p.type!=='literal').map(p=>p.value).join(':'); // "HH:MM:SS"
-  // Generate a Date object representing current TIMEZONE wall-clock for the same day as startDate
-  const dateInTZ = new Date(now.toLocaleString('en-US', { timeZone: TIMEZONE }));
-  const s = startDate; const e = endDate;
-  // We'll compare numeric epoch values by constructing a date in local JS that matches the timezone wall-clock.
-  // Note: This approach is an approximation but works for schedule "LIVE now" toggles for typical streaming needs.
-  return (dateInTZ >= startDate && dateInTZ <= endDate);
-}
-
-function refreshSchedule(){
-  scheduleList.innerHTML = '';
-  // sort SCHEDULE by day/time
-  const sorted = SCHEDULE.slice().sort((a,b)=>{
-    if(a.day !== b.day) return a.day - b.day;
-    return a.start.localeCompare(b.start);
-  });
-
-  sorted.forEach((item, idx) => {
-    const { weekday, startStr, endStr, startDate, endDate } = toLocalTimeStr(item.day, item.start, item.end);
-    const card = document.createElement('div');
-    card.className = 'schedule-card';
-    const timeBox = document.createElement('div');
-    timeBox.className = 'time'; timeBox.textContent = `${weekday} ${startStr} - ${endStr}`;
-
-    const meta = document.createElement('div'); meta.className = 'meta';
-    meta.innerHTML = `<div style="font-weight:800;color:white">${item.title}</div><div style="margin-top:6px">${item.platform} • ${item.start} - ${item.end} (local)</div>`;
-
-    const right = document.createElement('div');
-    const live = document.createElement('div'); live.className = 'live'; live.textContent = 'LIVE';
-    // determine if live
-    if(isLiveNow(startDate, endDate)){
-      right.appendChild(live);
-      // add small animated glow to the schedule card
-      card.style.boxShadow = '0 28px 90px rgba(0,255,159,0.08)';
-    } else {
-      const tag = document.createElement('div'); tag.className='tag'; tag.textContent = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][item.day];
-      right.appendChild(tag);
-    }
-
-    card.appendChild(timeBox); card.appendChild(meta); card.appendChild(right);
-    scheduleList.appendChild(card);
-  });
-}
-
-// initial render
-refreshSchedule();
-// refresh every 45 seconds to update LIVE indicator
-setInterval(refreshSchedule, 45_000);
-
-/* ===========================
-   4) particle canvas (from your original but slightly polished)
-   =========================== */
-(function(){
-  const canvas = document.getElementById('particleCanvas');
-  const ctx = canvas.getContext('2d');
-  let w=0,h=0;
-  function resize(){ w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-  addEventListener('resize', ()=>{ resize(); });
-  resize();
-
-  const particles = [];
-  const count = Math.max(40, Math.floor((w*h)/50000)); // scale by viewport
-  const color = '#00d1ff';
-  for(let i=0;i<count;i++){
-    particles.push({
-      x: Math.random()*w,
-      y: Math.random()*h,
-      vx: (Math.random()-0.5)*0.6,
-      vy: (Math.random()-0.5)*0.6,
-      r: Math.random()*2.2 + 0.6,
-      a: Math.random()*0.8 + 0.2
-    });
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    // parallax background hint - rotate gradient slowly
-    for(const p of particles){
-      p.x += p.vx; p.y += p.vy;
-      if(p.x < -10) p.x = w + 10;
-      if(p.x > w + 10) p.x = -10;
-      if(p.y < -10) p.y = h + 10;
-      if(p.y > h + 10) p.y = -10;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-      ctx.fillStyle = color;
-      ctx.globalAlpha = p.a * 0.9;
-      ctx.fill();
-    }
-    // lightly connect nearby particles
-    for(let i=0;i<particles.length;i++){
-      for(let j=i+1;j<particles.length;j++){
-        const a = particles[i], b = particles[j];
-        const dx = a.x-b.x, dy = a.y-b.y;
-        const d2 = dx*dx+dy*dy;
-        if(d2 < 9000){
-          ctx.beginPath();
-          ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-          ctx.strokeStyle = 'rgba(0,209,255,0.04)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-    }
-
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-/* ===========================
-   5) small UI niceties
-   =========================== */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'ArrowLeft') setActive(Math.max(0, activeIndex-1));
-  if(e.key === 'ArrowRight') setActive(Math.min(3, activeIndex+1));
-});
-
-// smart link: clicking "Jump to socials" will activate the socials slide
-document.querySelectorAll('a[href="#socials"]').forEach(a=>{
-  a.addEventListener('click', (ev)=>{ ev.preventDefault(); setActive(1); });
-});
-
-// tiny entrance stagger for social/project tiles
-window.addEventListener('load', ()=>{
-  const cards = document.querySelectorAll('.project-card');
-  cards.forEach((c,i)=>{
-    c.style.opacity = 0;
-    c.style.transform = 'translateY(12px)';
-    setTimeout(()=>{ c.style.transition = 'transform 520ms cubic-bezier(.2,.9,.25,1), opacity 520ms'; c.style.transform='translateY(0)'; c.style.opacity=1; }, 80 + i*40);
-  });
-});
-
-// Make sure we try to load repos again if the user clicks the Projects nav
-document.querySelector('.nav-btn[data-index="2"]').addEventListener('click', ()=> loadGitHubRepos());
-
-/* ===========================
-   End of script
-   =========================== */
-</script>
-</body>
-</html>
+  /* ABOUT */
+  .about-grid { display:grid; grid-template-columns: 1fr 320px; gap:18px; align-items:start; }
+  .avatar {
+    width:160px;height:160px;border-radius:16px;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-green));
+    display:flex;align-items:c
