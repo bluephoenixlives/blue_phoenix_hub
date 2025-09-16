@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>blue_phoenix_lives</title>
 <style>
   /* ===== Base Styles ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body, html { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
-  body { background: #0d1117; color: #000; position: relative; }
+  html, body { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
+  body { background: #0d1117; position: relative; color: #0d1117; }
 
   /* ===== Loading Screen ===== */
   #loading {
@@ -27,58 +27,77 @@
   @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
 
   /* ===== Particle Background ===== */
-  .particle-bg { position: fixed; inset: 0; z-index: -1; }
-  canvas.particle-canvas { position: absolute; top:0; left:0; width:100%; height:100%; }
+  .particle-bg { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+  canvas.particle-canvas { position: absolute; top:0; left:0; width:100%; height:100%; display:block; }
 
   /* ===== Header ===== */
   header {
-    position: relative;
-    text-align: center;
+    position: relative; text-align: center;
     padding: 2rem 1rem;
     background: linear-gradient(90deg, #228B22, #66d9ff);
     color: #002B5B;
     box-shadow: 0 0 20px #228B22;
+    z-index:1;
   }
   header h1 {
     font-size: 3rem;
+    color: #002B5B;
     text-shadow: 0 0 10px #9400D3, 0 0 20px #228B22, 0 0 30px #66d9ff;
     margin-bottom: 1rem;
-    color: #002B5B;
   }
+
+  /* ===== Header Buttons (Lavender) ===== */
   #nav-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
   }
   .nav-btn {
     background: #0d1117;
-    color: #228B22;
+    color: #9400D3; /* Lavender text */
     padding: 0.7rem 1.5rem;
     font-weight: bold;
     border: 2px solid #9400D3;
     border-radius: 0.6rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-shadow: 0 0 5px #228B22;
+    text-shadow: 0 0 5px #9400D3;
     box-shadow: 0 0 5px #9400D3;
   }
   .nav-btn:hover {
-    background: #228B22;
-    color: #0d1117;
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4; /* deep lavender + pink glow */
+    background: #9400D3; /* Lavender background */
+    color: #FF69B4; /* Hot pink text */
+    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4; /* Glow */
     transform: scale(1.1);
   }
 
-  /* ===== Sections ===== */
-  section { min-height: 100vh; padding: 3rem 2rem; display: none; animation: slideIn 0.8s ease forwards; }
+  /* ===== Sections with Animated Gradients ===== */
+  section {
+    min-height: 100vh;
+    padding: 3rem 2rem;
+    display: none;
+    animation: slideIn 0.8s ease forwards;
+    background-size: 400% 400%;
+  }
   section.active { display: block; }
   @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-  /* Section Colors */
-  #about { background: #228B22; color: #0d1117; }
-  #socials { background: #66d9ff; color: #0d1117; }
-  #schedule { background: #228B22; color: #0d1117; }
+  @keyframes gradientGreenLavender { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
+  @keyframes gradientBlueLavender { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
+
+  #about { 
+    background: linear-gradient(-45deg, #228B22, #9400D3, #228B22, #9400D3); 
+    color: #0d1117; 
+    animation: gradientGreenLavender 15s ease infinite; 
+  }
+  #socials { 
+    background: linear-gradient(-45deg, #66d9ff, #00cfff, #99e5ff, #66d9ff); 
+    color: #0d1117; 
+    animation: gradientBlueLavender 15s ease infinite; 
+  }
+  #schedule { 
+    background: linear-gradient(-45deg, #66d9ff, #9400D3, #66d9ff, #9400D3); 
+    color: #0d1117; 
+    animation: gradientBlueLavender 15s ease infinite; 
+  }
 
   /* ===== Socials Grid ===== */
   .socials-grid {
@@ -123,7 +142,7 @@
 <div id="loading"><h1>blue_phoenix_lives</h1></div>
 
 <!-- Particle Background -->
-<div class="particle-bg" data-color1="#004400" data-color2="#000044" data-speed="0.7"></div>
+<div class="particle-bg" data-color1="#004400" data-color2="#001f4d" data-speed="0.5"></div>
 
 <header>
   <h1>blue_phoenix_lives</h1>
@@ -188,13 +207,13 @@
 
 <script>
   // ===== Loading Screen =====
-  window.addEventListener('load', () => { setTimeout(()=>{ document.getElementById('loading').style.display='none'; }, 1500); });
+  window.addEventListener('load', ()=>{ setTimeout(()=>{ document.getElementById('loading').style.display='none'; },1500); });
 
   // ===== Section Switching =====
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.target;
-      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const target=btn.dataset.target;
+      document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
       document.getElementById(target).classList.add('active');
     });
   });
@@ -207,18 +226,19 @@
     const ctx=canvas.getContext('2d');
     let width=window.innerWidth, height=window.innerHeight; canvas.width=width; canvas.height=height;
 
-    const particles=[]; const count=80;
-    const color1=container.dataset.color1||'#004400';
-    const color2=container.dataset.color2||'#000044';
-    const speed=parseFloat(container.dataset.speed)||0.7;
+    const particles=[]; const count=120;
+    const color1="#004400", color2="#001f4d"; const speed=0.4;
 
     class Particle{constructor(){this.reset();}
-      reset(){this.x=Math.random()*width;this.y=Math.random()*height;this.vx=(Math.random()-0.5)*speed*2;this.vy=(Math.random()-0.5)*speed*2;this.size=Math.random()*3+1;this.color=Math.random()<0.5?color1:color2;}
-      update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>width||this.y<0||this.y>height)this.reset();}
+      reset(){this.x=Math.random()*width; this.y=Math.random()*height;
+        this.vx=(Math.random()-0.5)*speed*2; this.vy=(Math.random()-0.5)*speed*2;
+        this.size=Math.random()*3+1; this.color=Math.random()<0.5?color1:color2;}
+      update(){this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>width||this.y<0||this.y>height)this.reset();}
       draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
     }
     for(let i=0;i<count;i++) particles.push(new Particle());
-    function animate(){ctx.clearRect(0,0,width,height);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+
+    function animate(){ctx.clearRect(0,0,width,height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate);}
     animate();
     window.addEventListener('resize',()=>{width=window.innerWidth;height=window.innerHeight;canvas.width=width;canvas.height=height;});
   })();
