@@ -32,6 +32,7 @@
   header h1 {
     font-size: 2.5rem;
     text-shadow: 0 0 10px #5aa7c7;
+    margin-bottom: 0.5rem;
   }
 
   /* ===== Profile Pictures ===== */
@@ -60,7 +61,28 @@
   }
   #profile-pic-small:hover { transform: scale(1.1); }
 
-  /* ===== Page Layout ===== */
+  /* ===== Navigation Buttons ===== */
+  #nav-buttons {
+    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+  .nav-btn {
+    background: #2b2f33;
+    color: #5aa7c7;
+    padding: 0.6rem 1.2rem;
+    font-weight: bold;
+    border: 2px solid #4a90a4;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .nav-btn:hover {
+    background: #5aa7c7;
+    color: #1b1d1f;
+    transform: scale(1.05);
+  }
+
+  /* ===== Sections ===== */
   section {
     min-height: 100vh;
     padding: 8rem 2rem 4rem 2rem;
@@ -113,30 +135,12 @@
     padding: 0.8rem;
     text-align: center;
   }
-  th {
-    background: #2b2f33;
-    color: #5aa7c7;
-  }
-  td:hover {
-    background: #4a90a4;
-    color: #1b1d1f;
-    font-weight: bold;
-  }
+  th { background: #2b2f33; color: #5aa7c7; }
+  td:hover { background: #4a90a4; color: #1b1d1f; font-weight: bold; }
 
-  /* ===== Smooth Scroll Animation ===== */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  section {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1s ease, transform 1s ease;
-  }
-  section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* ===== Fade-in Scroll Animation ===== */
+  section { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
+  section.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -145,6 +149,11 @@
   <h1>blue_phoenix_lives</h1>
   <div id="profile-pic-container"><img src="github-images/bluephoenix-v3.jpg" id="profile-pic" alt="Profile Picture"></div>
   <div id="profile-pic-small"><img src="github-images/watermark.png" alt="Small Picture"></div>
+  <div id="nav-buttons">
+    <button class="nav-btn" onclick="document.querySelector('#about').scrollIntoView({behavior:'smooth'})">About</button>
+    <button class="nav-btn" onclick="document.querySelector('#socials').scrollIntoView({behavior:'smooth'})">Socials</button>
+    <button class="nav-btn" onclick="document.querySelector('#schedule').scrollIntoView({behavior:'smooth'})">Schedule</button>
+  </div>
 </header>
 
 <section id="about">
@@ -159,6 +168,33 @@
     <a href="https://www.youtube.com/@blue_phoenix_lives" target="_blank">YouTube</a>
     <a href="https://kick.com/blue-phoenix-lives" target="_blank">Kick</a>
     <a href="https://discord.gg/ZD2txWbn" target="_blank">Discord</a>
+    <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank">Clicker Game</a>
+    <a href="https://bluephoenixlives.github.io/Website-Builder-html/" target="_blank">Website Builder</a>
+    <!-- 24 Placeholder Links -->
+    <a href="https://example.com" target="_blank">Placeholder 1</a>
+    <a href="https://example.com" target="_blank">Placeholder 2</a>
+    <a href="https://example.com" target="_blank">Placeholder 3</a>
+    <a href="https://example.com" target="_blank">Placeholder 4</a>
+    <a href="https://example.com" target="_blank">Placeholder 5</a>
+    <a href="https://example.com" target="_blank">Placeholder 6</a>
+    <a href="https://example.com" target="_blank">Placeholder 7</a>
+    <a href="https://example.com" target="_blank">Placeholder 8</a>
+    <a href="https://example.com" target="_blank">Placeholder 9</a>
+    <a href="https://example.com" target="_blank">Placeholder 10</a>
+    <a href="https://example.com" target="_blank">Placeholder 11</a>
+    <a href="https://example.com" target="_blank">Placeholder 12</a>
+    <a href="https://example.com" target="_blank">Placeholder 13</a>
+    <a href="https://example.com" target="_blank">Placeholder 14</a>
+    <a href="https://example.com" target="_blank">Placeholder 15</a>
+    <a href="https://example.com" target="_blank">Placeholder 16</a>
+    <a href="https://example.com" target="_blank">Placeholder 17</a>
+    <a href="https://example.com" target="_blank">Placeholder 18</a>
+    <a href="https://example.com" target="_blank">Placeholder 19</a>
+    <a href="https://example.com" target="_blank">Placeholder 20</a>
+    <a href="https://example.com" target="_blank">Placeholder 21</a>
+    <a href="https://example.com" target="_blank">Placeholder 22</a>
+    <a href="https://example.com" target="_blank">Placeholder 23</a>
+    <a href="https://example.com" target="_blank">Placeholder 24</a>
   </div>
 </section>
 
