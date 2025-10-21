@@ -5,23 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>blue_phoenix_lives</title>
 <style>
-  /* ===== Base Styles ===== */
+  /* ===== COLOR PALETTE =====
+     Dark Gray: #1c1f26
+     Medium Gray: #2a2e36
+     Light Gray: #b0b3b8
+     Accent Blue: #4a90e2
+     Grayish Blue: #6a8ba8
+  ========================== */
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
-  body { background: #0d1117; position: relative; color: #0d1117; }
+  html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+    color: #e0e0e0;
+    background-color: #1c1f26;
+    overflow-x: hidden;
+  }
 
   /* ===== Loading Screen ===== */
   #loading {
     position: fixed; inset: 0;
     display: flex; justify-content: center; align-items: center;
-    background: linear-gradient(135deg, #228B22, #66d9ff);
+    background: linear-gradient(135deg, #2a2e36, #4a90e2);
     z-index: 9999;
     flex-direction: column;
   }
   #loading h1 {
     font-size: 3rem;
-    color: #002B5B;
-    text-shadow: 0 0 10px #fff, 0 0 20px #228B22, 0 0 30px #66d9ff;
+    color: #b0b3b8;
+    text-shadow: 0 0 15px #4a90e2;
     animation: pulse 1.5s infinite;
   }
   @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
@@ -30,112 +43,106 @@
   .particle-bg { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
   canvas.particle-canvas { position: absolute; top:0; left:0; width:100%; height:100%; display:block; }
 
-  /* ===== Header ===== */
+  /* ===== Fixed Header ===== */
   header {
-    position: relative; text-align: center;
-    padding: 3rem 1rem;
-    background: linear-gradient(90deg, #228B22, #66d9ff);
-    color: #002B5B;
-    box-shadow: 0 0 20px #228B22;
-    z-index:1;
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: linear-gradient(90deg, #2a2e36, #1c1f26);
+    color: #b0b3b8;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    z-index: 1000;
   }
   header h1 {
-    font-size: 3rem;
-    color: #002B5B;
-    text-shadow: 0 0 10px #9400D3, 0 0 20px #228B22, 0 0 30px #66d9ff;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #4a90e2;
+    text-shadow: 0 0 10px #6a8ba8;
+    margin-bottom: 0.5rem;
   }
 
   /* ===== Profile Pictures ===== */
-  /* Top-left main profile pic */
   #profile-pic-container {
     position: absolute;
-    top: 2rem;
-    left: 2rem;
-    width: 150px;
-    height: 150px;
+    top: 1rem; left: 1rem;
+    width: 100px; height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    border: 4px solid #9400D3;
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
-    transition: transform 0.3s, box-shadow 0.3s;
+    border: 3px solid #6a8ba8;
+    box-shadow: 0 0 10px #4a90e2;
+    transition: transform 0.3s;
   }
-  #profile-pic-container:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #9400D3, 0 0 40px #FF69B4;
-  }
+  #profile-pic-container:hover { transform: scale(1.05); }
   #profile-pic { width: 100%; height: 100%; object-fit: cover; }
 
-  /* Top-right small profile pic */
   #profile-pic-small {
     position: absolute;
-    top: 2rem;
-    right: 2rem;
-    width: 50px;
-    height: 50px;
+    top: 1.5rem; right: 1.5rem;
+    width: 50px; height: 50px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid #9400D3;
-    box-shadow: 0 0 10px #9400D3, 0 0 15px #FF69B4;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  #profile-pic-small:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #9400D3, 0 0 25px #FF69B4;
+    border: 2px solid #6a8ba8;
+    box-shadow: 0 0 10px #4a90e2;
   }
   #profile-pic-small img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* ===== Header Buttons (Lavender) ===== */
+  /* ===== Navigation Buttons ===== */
   #nav-buttons {
     display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
   .nav-btn {
-    background: #0d1117;
-    color: #9400D3;
-    padding: 0.7rem 1.5rem;
+    background: #1c1f26;
+    color: #b0b3b8;
+    padding: 0.6rem 1.2rem;
     font-weight: bold;
-    border: 2px solid #9400D3;
+    border: 2px solid #4a90e2;
     border-radius: 0.6rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-shadow: 0 0 5px #9400D3;
-    box-shadow: 0 0 5px #9400D3;
   }
   .nav-btn:hover {
-    background: #9400D3;
-    color: #FF69B4;
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
-    transform: scale(1.1);
+    background: #4a90e2;
+    color: #fff;
+    transform: scale(1.05);
   }
 
   /* ===== Sections ===== */
   section { 
-    min-height: 100vh; padding: 3rem 2rem;
-    display: none;
-    animation: slideIn 0.8s ease forwards;
-    background-size: 400% 400%;
+    min-height: 100vh; 
+    padding: 7rem 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
   }
-  section.active { display: block; }
-  @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-  @keyframes gradientGreenLavender { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
-  @keyframes gradientBlueLavender { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-  #about { 
-    background: linear-gradient(-45deg, #228B22, #9400D3, #228B22, #9400D3); 
-    color: #0d1117; 
-    animation: gradientGreenLavender 15s ease infinite; 
+  #about {
+    background: linear-gradient(-45deg, #2a2e36, #1c1f26, #2a2e36);
+    animation: bgShift 15s ease infinite;
   }
-  #socials { 
-    background: linear-gradient(-45deg, #66d9ff, #00cfff, #99e5ff, #66d9ff); 
-    color: #0d1117; 
-    animation: gradientBlueLavender 15s ease infinite; 
+  #socials {
+    background: linear-gradient(-45deg, #1c1f26, #2a2e36, #4a90e2);
+    animation: bgShift 15s ease infinite;
   }
-  #schedule { 
-    background: linear-gradient(-45deg, #66d9ff, #9400D3, #66d9ff, #9400D3); 
-    color: #0d1117; 
-    animation: gradientBlueLavender 15s ease infinite; 
+  #schedule {
+    background: linear-gradient(-45deg, #2a2e36, #1c1f26, #6a8ba8);
+    animation: bgShift 15s ease infinite;
+  }
+
+  @keyframes bgShift { 
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
   }
 
   /* ===== Socials Grid ===== */
@@ -147,31 +154,29 @@
   }
   .socials-grid a {
     display: block;
-    background-color: #0d1117;
-    color: #228B22;
+    background-color: #2a2e36;
+    color: #4a90e2;
     padding: 0.8rem 1rem;
     border-radius: 0.6rem;
     text-align: center;
     font-weight: bold;
-    transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
     text-decoration: none;
-    text-shadow: 0 0 5px #228B22;
-    border: 1px solid #9400D3;
-    box-shadow: 0 0 5px #9400D3;
+    border: 1px solid #6a8ba8;
+    transition: all 0.3s;
   }
   .socials-grid a:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px #9400D3, 0 0 25px #FF69B4;
-    color: #0d1117;
-    background: #228B22;
+    background: #4a90e2;
+    color: #fff;
+    transform: scale(1.05);
   }
 
   /* ===== Schedule Table ===== */
-  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-  th, td { border: 1px solid #228B22; padding: 0.8rem; text-align: center; transition: all 0.3s; }
-  th { background: #0d1117; color: #9400D3; }
-  td { background: rgba(0,0,0,0.1); }
-  td:hover { background: #228B22; color: #0d1117; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; max-width: 700px; }
+  th, td { border: 1px solid #6a8ba8; padding: 0.8rem; text-align: center; }
+  th { background: #2a2e36; color: #4a90e2; }
+  td { background: rgba(255,255,255,0.05); }
+  td:hover { background: #4a90e2; color: #fff; font-weight: bold; transition: 0.3s; }
+
 </style>
 </head>
 <body>
@@ -180,30 +185,20 @@
 <div id="loading"><h1>blue_phoenix_lives</h1></div>
 
 <!-- Particle Background -->
-<div class="particle-bg" data-color1="#004400" data-color2="#001f4d" data-speed="0.5"></div>
+<div class="particle-bg" data-color1="#3a3f48" data-color2="#4a90e2" data-speed="0.5"></div>
 
 <header>
   <h1>blue_phoenix_lives</h1>
-
-  <!-- Top-left main profile pic (Larger) -->
-  <div id="profile-pic-container">
-    <img src="github-images/bluephoenix-v3.jpg" alt="Profile Picture" id="profile-pic">
-  </div>
-
-  <!-- Top-right small profile pic (Watermark) -->
-  <div id="profile-pic-small">
-    <img src="github-images/watermark.png" alt="Small Profile Picture">
-  </div>
-
-  <!-- Navigation Buttons -->
+  <div id="profile-pic-container"><img src="github-images/bluephoenix-v3.jpg" alt="Profile Picture" id="profile-pic"></div>
+  <div id="profile-pic-small"><img src="github-images/watermark.png" alt="Small Profile Picture"></div>
   <div id="nav-buttons">
-    <button class="nav-btn" data-target="about">About</button>
-    <button class="nav-btn" data-target="socials">Socials</button>
-    <button class="nav-btn" data-target="schedule">Schedule</button>
+    <button class="nav-btn" onclick="document.querySelector('#about').scrollIntoView({behavior:'smooth'})">About</button>
+    <button class="nav-btn" onclick="document.querySelector('#socials').scrollIntoView({behavior:'smooth'})">Socials</button>
+    <button class="nav-btn" onclick="document.querySelector('#schedule').scrollIntoView({behavior:'smooth'})">Schedule</button>
   </div>
 </header>
 
-<section id="about" class="active">
+<section id="about">
   <h2>About Me</h2>
   <p>I'm Bryan, a creator, streamer, and developer. I love making new random projects and sharing them online. Join me on this journey!</p>
 </section>
@@ -217,31 +212,6 @@
     <a href="https://discord.gg/ZD2txWbn" target="_blank">Discord</a>
     <a href="https://bluephoenixlives.github.io/ChatGPT-neoclicker/" target="_blank">Clicker Game</a>
     <a href="https://bluephoenixlives.github.io/Website-Builder-html/" target="_blank">Website Builder</a>
-    <!-- 24 Placeholder Links -->
-    <a href="https://example.com" target="_blank">Placeholder 1</a>
-    <a href="https://example.com" target="_blank">Placeholder 2</a>
-    <a href="https://example.com" target="_blank">Placeholder 3</a>
-    <a href="https://example.com" target="_blank">Placeholder 4</a>
-    <a href="https://example.com" target="_blank">Placeholder 5</a>
-    <a href="https://example.com" target="_blank">Placeholder 6</a>
-    <a href="https://example.com" target="_blank">Placeholder 7</a>
-    <a href="https://example.com" target="_blank">Placeholder 8</a>
-    <a href="https://example.com" target="_blank">Placeholder 9</a>
-    <a href="https://example.com" target="_blank">Placeholder 10</a>
-    <a href="https://example.com" target="_blank">Placeholder 11</a>
-    <a href="https://example.com" target="_blank">Placeholder 12</a>
-    <a href="https://example.com" target="_blank">Placeholder 13</a>
-    <a href="https://example.com" target="_blank">Placeholder 14</a>
-    <a href="https://example.com" target="_blank">Placeholder 15</a>
-    <a href="https://example.com" target="_blank">Placeholder 16</a>
-    <a href="https://example.com" target="_blank">Placeholder 17</a>
-    <a href="https://example.com" target="_blank">Placeholder 18</a>
-    <a href="https://example.com" target="_blank">Placeholder 19</a>
-    <a href="https://example.com" target="_blank">Placeholder 20</a>
-    <a href="https://example.com" target="_blank">Placeholder 21</a>
-    <a href="https://example.com" target="_blank">Placeholder 22</a>
-    <a href="https://example.com" target="_blank">Placeholder 23</a>
-    <a href="https://example.com" target="_blank">Placeholder 24</a>
   </div>
 </section>
 
@@ -256,39 +226,42 @@
     <tr><td>Friday</td><td>7 PM</td><td>Nothing coming soon</td></tr>
   </table>
 </section>
-  
+
 <script>
   // ===== Loading Screen =====
-  window.addEventListener('load', ()=>{
-    setTimeout(()=>{ document.getElementById('loading').style.display='none'; },1500);
+  window.addEventListener('load', ()=> {
+    setTimeout(()=>{ document.getElementById('loading').style.display='none'; },1200);
   });
 
-  // ===== Section Switching =====
-  document.querySelectorAll('.nav-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const target = btn.dataset.target;
-      document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
-      document.getElementById(target).classList.add('active');
+  // ===== Section Scroll Fade-In =====
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
     });
-  });
+  }, { threshold: 0.2 });
+
+  sections.forEach(sec => observer.observe(sec));
 
   // ===== Particle Background =====
   (function(){
     const container = document.querySelector('.particle-bg');
-    const canvas = document.createElement('canvas'); canvas.className = 'particle-canvas';
+    const canvas = document.createElement('canvas');
+    canvas.className = 'particle-canvas';
     container.appendChild(canvas);
     const ctx = canvas.getContext('2d');
     let width = window.innerWidth, height = window.innerHeight; canvas.width = width; canvas.height = height;
-
-    const particles = []; const count = 120;
-    const color1 = "#004400", color2 = "#001f4d"; const speed = 0.4;
+    const particles = []; const count = 100;
+    const color1 = "#3a3f48", color2 = "#4a90e2"; const speed = 0.4;
 
     class Particle {
       constructor(){ this.reset(); }
       reset(){ 
         this.x = Math.random()*width; this.y = Math.random()*height;
         this.vx = (Math.random()-0.5)*speed*2; this.vy = (Math.random()-0.5)*speed*2;
-        this.size = Math.random()*3+1; this.color = Math.random()<0.5 ? color1 : color2;
+        this.size = Math.random()*2+1; this.color = Math.random()<0.5 ? color1 : color2;
       }
       update(){ this.x += this.vx; this.y += this.vy; if(this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset(); }
       draw(){ ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle = this.color; ctx.fill(); }
